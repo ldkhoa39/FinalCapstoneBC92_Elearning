@@ -58,7 +58,12 @@ export interface Course {
   maNhom: string;
   ngayTao: string;
   soLuongHocVien: number;
-  nguoiTao: Creator;
+  nguoiTao: {
+    taiKhoan: string;
+    hoTen: string;
+    maLoaiNguoiDung: string;
+    tenLoaiNguoiDung: string;
+  };
   danhMucKhoaHoc: CourseCategory;
 }
 

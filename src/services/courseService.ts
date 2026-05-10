@@ -1,5 +1,5 @@
-import api from "./api"; // Import cái api bạn muốn giữ nguyên
-import type { Course, CourseCategory } from "../type"; // Dùng các interface mình đã làm
+import api from "./api"; 
+import type { Course, CourseCategory } from "../type"; 
 
 export const courseService = {
   // Lấy danh mục khóa học cho Menu Header
