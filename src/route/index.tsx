@@ -1,6 +1,6 @@
 import { useRoutes } from "react-router-dom";
 // Import Templates
-// import HomeTemplate from "../Pages/HomeTemplate";
+import HomeTemplate from "../pages/HomeTemplate";
 // import AdminTemplate from "../Pages/AdminTemplate";
 
 // Import Pages (Tạm thời bạn có thể tạo các file dummy để test)
@@ -13,7 +13,7 @@ const Router = () => {
     // Luồng cho Client (Người dùng/Học viên)
     {
       path: "",
-      // element: <HomeTemplate />, 
+      element: <HomeTemplate />, // Đổi từ <div> sang <HomeTemplate />
       children: [
         {
           path: "/",
