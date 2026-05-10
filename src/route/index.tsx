@@ -1,59 +1,98 @@
-import { useRoutes } from "react-router-dom";
-// Import Templates
-import HomeTemplate from "../pages/HomeTemplate";
-// import AdminTemplate from "../Pages/AdminTemplate";
+// src/routes/index.tsx
 
-// Import Pages (Tạm thời bạn có thể tạo các file dummy để test)
-// import Home from "../Pages/HomeTemplate/Home";
-// import Login from "../Pages/HomeTemplate/Login";
-// import UserManagement from "../Pages/AdminTemplate/UserManagement";
+import { useRoutes } from "react-router-dom";
+
+// Templates
+import HomeTemplate from "../pages/HomeTemplate";
+
+// Pages
+import Home from "../pages/HomeTemplate/Home";
+// import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
+// import Detail from "../pages/HomeTemplate/Detail";
+// import Login from "../pages/HomeTemplate/Auth/Login";
+// import Register from "../pages/HomeTemplate/Auth/Register";
+// import Profile from "../pages/HomeTemplate/Profile";
 
 const Router = () => {
   const routes = useRoutes([
-    // Luồng cho Client (Người dùng/Học viên)
+    // =========================
+    // CLIENT ROUTES
+    // =========================
     {
-      path: "",
-      element: <HomeTemplate />, // Đổi từ <div> sang <HomeTemplate />
+      path: "/",
+      element: <HomeTemplate />,
       children: [
+        // Home Page
         {
-          path: "/",
-          element: <div>Trang Chủ (Home)</div>, // Sau này thay bằng component <Home />
+          index: true,
+          element: <Home />,
+        },
+
+        // Course Category
+        {
+          path: "course-category/:id",
+          // element: <CourseCatalog />,
+        },
+
+        // Course Detail
+        {
+          path: "detail/:id",
+          // element: <Detail />,
+        },
+
+        // Auth
+        {
+          path: "login",
+          // element: <Login />,
         },
         {
-          path: "/course-category/:id",
-          element: <div>Danh mục khóa học</div>,
+          path: "register",
+          // element: <Register />,
         },
+
+        // Profile
         {
-          path: "/detail/:id",
-          element: <div>Chi tiết khóa học</div>,
-        },
-        {
-          path: "/login",
-          element: <div>Trang Đăng Nhập</div>,
+          path: "profile",
+          // element: <Profile />,
         },
       ],
     },
 
-    // Luồng cho Quản trị viên (Admin)
+    // =========================
+    // ADMIN ROUTES
+    // =========================
     {
       path: "/admin",
-      // element: <AdminTemplate />,
       children: [
         {
           path: "user-management",
-          element: <div>Quản lý người dùng</div>,
+          element: (
+            <div className="text-white p-10 text-center">
+              Quản lý người dùng
+            </div>
+          ),
         },
         {
           path: "course-management",
-          element: <div>Quản lý khóa học</div>,
+          element: (
+            <div className="text-white p-10 text-center">
+              Quản lý khóa học
+            </div>
+          ),
         },
       ],
     },
 
-    // Route cho các trường hợp không tìm thấy trang (404)
+    // =========================
+    // 404 PAGE
+    // =========================
     {
       path: "*",
-      element: <div>Trang này không tồn tại - 404</div>,
+      element: (
+        <div className="min-h-screen flex items-center justify-center bg-main-bg text-main-text text-3xl font-bold">
+          404 - Trang không tồn tại
+        </div>
+      ),
     },
   ]);
 

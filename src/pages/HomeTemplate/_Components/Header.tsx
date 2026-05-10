@@ -49,7 +49,7 @@ const Header: React.FC = () => {
                     <li key={item.maDanhMucKhoahoc}>
                       <Link
                         to={`/course-category/${item.maDanhMucKhoahoc}`}
-                        className="block px-4 py-2 hover:bg-[#2563EB] hover:text-white transition-all"
+                        className="block px-4 py-2 hover:bg-[#2563EB] hover:text-white transition-all duration-300 rounded-md mx-1"
                       >
                         {item.tenDanhMucKhoaHoc}
                       </Link>
