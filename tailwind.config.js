@@ -19,13 +19,15 @@ export default {
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',
         'pulse-glow': 'pulseGlow 2s infinite',
+        'spin-reverse': 'spin 1.5s linear infinite reverse',
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateY(-10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-      }
+      },
+
     },
   },
   plugins: [],

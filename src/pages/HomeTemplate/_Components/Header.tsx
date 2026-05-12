@@ -1,57 +1,91 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { courseService } from "../../../services/courseService";
 import type { CourseCategory } from "../../../type";
 
 const Header: React.FC = () => {
   const [categories, setCategories] = useState<CourseCategory[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    courseService
-      .getCourseCategories()
-      .then((res) => setCategories(res.data))
-      .catch((err) => console.log("Lỗi:", err));
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await courseService.getCourseCategories();
+      setCategories(res.data);
+    } catch (err) {
+      console.error("Lỗi tải danh mục Header:", err);
+    }
   }, []);
 
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?keyword=${searchQuery}`);
+      setSearchQuery("");
+    }
+  };
+
   return (
-    // Main background: #020617
-    <nav className="bg-[#020617] border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+    <nav className="bg-[#020617]/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 shadow-2xl">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        {/* Logo với Accent Glow: #22D3EE */}
-        <Link to="/" className="flex items-center space-x-3">
-          <span className="self-center text-2xl font-bold whitespace-nowrap text-[#22D3EE] drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">
-            <i className="fa fa-graduation-cap mr-2"></i> BC92 E-LEARNING
+        
+        {/* Logo mới: Mũ Bachelor + Elearning-BC92 */}
+        <Link to="/" className="flex items-center space-x-3 group">
+          <div className="w-11 h-11 bg-gradient-to-br from-primary-blue to-accent-cyan rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-transform group-hover:rotate-6">
+            <i className="fa fa-graduation-cap text-[#020617] text-2xl"></i>
+          </div>
+          <span className="self-center text-xl font-extrabold whitespace-nowrap text-white tracking-tight">
+            Elearning-<span className="text-accent-cyan">BC92</span>
           </span>
         </Link>
 
-        {/* Search Bar (Tùy chọn thêm để giao diện chuyên nghiệp hơn) */}
-        <div className="hidden md:flex items-center bg-[#0F172A] border border-slate-700 rounded-lg px-3 py-1.5 ml-8 flex-1 max-w-sm">
-          <i className="fa fa-search text-slate-400 mr-2 text-sm"></i>
+        {/* Nút Mobile Menu */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-slate-300 p-2 hover:text-accent-cyan transition-colors"
+        >
+          <i className={`fa ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+        </button>
+
+        {/* Thanh tìm kiếm */}
+        <form 
+          onSubmit={handleSearch}
+          className="hidden lg:flex items-center bg-[#0F172A] border border-slate-700 rounded-xl px-4 py-2 ml-8 flex-1 max-w-sm focus-within:border-accent-cyan/50 focus-within:ring-1 focus-within:ring-accent-cyan/40 transition-all"
+        >
+          <i className="fa fa-search text-slate-500 mr-2 text-sm"></i>
           <input
             type="text"
-            placeholder="Tìm khóa học..."
-            className="bg-transparent border-none text-sm text-[#E2E8F0] focus:ring-0 w-full"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Tìm khóa học của bạn..."
+            className="bg-transparent border-none text-sm text-slate-200 focus:ring-0 w-full outline-none placeholder:text-slate-600"
           />
-        </div>
+        </form>
 
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+        {/* Menu chính */}
+        <div className={`${isMobileMenuOpen ? 'block animate-fade-in' : 'hidden'} w-full md:block md:w-auto mt-4 md:mt-0`}>
           <ul className="font-medium flex flex-col md:flex-row md:space-x-8 items-center">
+            
             {/* Dropdown Danh mục */}
-            <li className="relative group">
-              <button className="flex items-center py-2 px-3 text-[#E2E8F0] hover:text-[#22D3EE] transition-colors">
-                DANH MỤC <i className="fa fa-chevron-down ml-2 text-xs"></i>
+            <li className="relative group w-full md:w-auto py-2">
+              <button className="flex items-center justify-between w-full md:w-auto text-slate-300 hover:text-accent-cyan transition-colors uppercase text-[13px] font-bold tracking-wider">
+                DANH MỤC <i className="fa fa-chevron-down ml-2 text-[10px] transition-transform group-hover:rotate-180"></i>
               </button>
 
-              {/* Card background: #0F172A */}
-              <div className="absolute z-10 hidden group-hover:block top-full left-0 font-normal bg-[#0F172A] border border-slate-700 divide-y divide-slate-700 rounded-lg shadow-xl w-56 animate-fade-in">
-                <ul className="py-2 text-sm text-[#E2E8F0]">
-                  {categories.map((item) => (
-                    <li key={item.maDanhMucKhoahoc}>
+              <div className="absolute z-10 hidden group-hover:block top-full left-0 pt-2">
+                <ul className="bg-[#0F172A] border border-slate-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] w-60 overflow-hidden p-2 backdrop-blur-xl">
+                  {categories.map((item, index) => (
+                    <li key={item.maDanhMuc || `cat-${index}`}> 
                       <Link
-                        to={`/course-category/${item.maDanhMucKhoahoc}`}
-                        className="block px-4 py-2 hover:bg-[#2563EB] hover:text-white transition-all duration-300 rounded-md mx-1"
+                        to={`/course-category/${item.maDanhMuc}`}
+                        className="block px-4 py-3 text-sm text-slate-400 hover:bg-primary-blue/20 hover:text-accent-cyan rounded-lg transition-all border-b border-slate-800/40 last:border-0"
                       >
-                        {item.tenDanhMucKhoaHoc}
+                        {item.tenDanhMuc}
                       </Link>
                     </li>
                   ))}
@@ -59,69 +93,34 @@ const Header: React.FC = () => {
               </div>
             </li>
 
-            {/* Link Khoá học */}
+            {/* Mục KHÓA HỌC với hiệu ứng Underline chạy từ trái qua */}
             <li>
-              <Link
+              <NavLink
                 to="/"
-                className="block py-2 px-3 text-[#E2E8F0] hover:text-[#8B5CF6] transition-colors"
+                className={({ isActive }) =>
+                  `relative pb-1 text-[13px] font-bold uppercase tracking-wider transition-all duration-300
+                  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-accent-purple after:transition-all after:duration-300 hover:after:w-full
+                  ${isActive ? "text-accent-cyan after:w-full after:bg-accent-cyan" : "text-primary-blue hover:text-accent-purple"}`
+                }
               >
-                KHOÁ HỌC
-              </Link>
+                KHÓA HỌC
+              </NavLink>
             </li>
 
             {/* Auth Buttons */}
-            <div className="flex items-center gap-3 ml-4">
-              {/* Login */}
+            <div className="flex items-center gap-5 ml-4 mt-4 md:mt-0">
               <Link
                 to="/login"
-                className="
-                  px-4 py-2
-                  rounded-xl
-                  border border-slate-700
-                  bg-slate-900/60
-                  text-slate-200
-                  text-sm font-medium
-                  backdrop-blur-md
-                  transition-all duration-300
-                  hover:bg-slate-800
-                  hover:border-slate-500
-                  hover:text-white
-                  hover:shadow-[0_0_12px_rgba(255,255,255,0.08)]
-                  active:scale-95
-                "
+                className="text-slate-400 text-[13px] font-bold uppercase hover:text-white transition-colors"
               >
                 Đăng nhập
               </Link>
 
-              {/* Register */}
               <Link
-              to="/register"
-                className="
-                  relative overflow-hidden
-                  px-5 py-2
-                  rounded-xl
-                  bg-gradient-to-r from-blue-600 to-cyan-500
-                  text-white
-                  text-sm font-semibold
-                  shadow-[0_0_20px_rgba(37,99,235,0.35)]
-                  transition-all duration-300
-                  hover:scale-105
-                  hover:shadow-[0_0_30px_rgba(34,211,238,0.45)]
-                  active:scale-95
-                "
+                to="/register"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-blue to-accent-cyan text-[#020617] text-[13px] font-bold uppercase tracking-tight shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition-all"
               >
-                <span className="relative z-10">Đăng ký</span>
-
-                {/* Glow effect */}
-                <div
-                  className="
-                    absolute inset-0
-                    bg-white/10
-                    opacity-0
-                    hover:opacity-100
-                    transition-opacity duration-300
-                  "
-                />
+                Ghi danh
               </Link>
             </div>
           </ul>
