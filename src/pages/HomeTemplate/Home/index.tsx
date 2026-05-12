@@ -4,6 +4,7 @@ import Hero from "./Hero";
 import CourseCard from "../_Components/CourseCard";
 import Loading from "../_Components/Loading";
 import { courseService } from "../../../services/courseService";
+import CourseList from "../_Components/CourseList";
 import type { Course } from "../../../type";
 
 const Home = () => {
@@ -37,36 +38,30 @@ const Home = () => {
 
   return (
     <main className="bg-[#020617] min-h-screen">
+      {/* 1. Phần Hero Banner: Giữ nguyên để tạo ấn tượng đầu trang */}
       <Hero />
 
-      <section aria-label="Danh sách khóa học phổ biến" className="max-w-screen-xl mx-auto px-4 py-16">
+      {/* 2. Phần Danh sách khóa học chính */}
+      <section 
+        aria-label="Danh sách khóa học phổ biến" 
+        className="max-w-screen-xl mx-auto px-4 py-16"
+      >
+        {/* Phần Tiêu đề: Đã được thiết kế lại với phong cách Elearning-BC92 */}
         <div className="mb-12">
           <p className="text-accent-cyan uppercase tracking-[0.3em] text-sm font-semibold mb-3">
             E-Learning Platform
           </p>
-          <h2 className="text-main-text text-3xl md:text-4xl font-extrabold">
+          <h2 className="text-white text-3xl md:text-4xl font-extrabold">
             Khóa học phổ biến
           </h2>
           <div className="w-24 h-1 mt-4 rounded-full bg-gradient-to-r from-primary-blue to-accent-cyan shadow-[0_0_10px_rgba(34,211,238,0.5)]"></div>
         </div>
 
-        {/* Xử lý các trạng thái UI */}
-        {isLoading ? (
-          <div className="flex justify-center py-20">
-            <Loading />
-          </div>
-        ) : error ? (
-          <div className="text-center py-20 text-red-400">
-            <i className="fa fa-exclamation-triangle mb-4 text-4xl"></i>
-            <p>{error}</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {listCourse.slice(0, 8).map((course) => (
-              <CourseCard key={course.maKhoaHoc} course={course} />
-            ))}
-          </div>
-        )}
+        {/* 3. Component CourseList: 
+            Đây là nơi xử lý toàn bộ logic phân trang, gọi API và render CourseCard.
+            Việc tách ra giúp code trang Home ngắn gọn và dễ bảo trì hơn. 
+        */}
+        <CourseList />
       </section>
     </main>
   );

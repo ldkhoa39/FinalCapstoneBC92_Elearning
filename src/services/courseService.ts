@@ -1,5 +1,5 @@
 import api from "./api"; 
-import type { Course, CourseCategory } from "../type"; 
+import type { Course, CourseCategory, PaginatedResult } from "../type"; 
 
 // Thống nhất mã nhóm là GP01 cho toàn dự án
 const MA_NHOM = "GP01";
@@ -51,5 +51,13 @@ export const courseService = {
     return api.get<any>(
       `QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?page=${page}&pageSize=${pageSize}&MaNhom=${MA_NHOM}`
     );
-  }
+  },
+
+  // 7. kiểm soát số lượng khóa học mỗi trang
+  getCoursePaginated: (page: number, pageSize: number) => {
+    return api.get<PaginatedResult<Course>>(
+      `QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?page=${page}&pageSize=${pageSize}&MaNhom=${MA_NHOM}`
+    );
+  },
+
 };
