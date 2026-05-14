@@ -1,57 +1,77 @@
 import React, { useEffect, useState } from "react";
 import { courseService } from "../../../services/courseService";
 import type { Course } from "../../../type";
-import CourseCard from "./CourseCard"; // Giả sử bạn đã có component này
+import CourseCard from "./CourseCard"; 
+import SkeletonLoading from "./SkelentonLoading"; 
 
 const CourseList: React.FC = () => {
   const [courseData, setCourseData] = useState<Course[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 8; // Số lượng khóa học mỗi trang
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const pageSize = 8; 
 
   useEffect(() => {
-    // Gọi API lấy danh sách phân trang
+    // 1. Bật loading mỗi khi bắt đầu gọi API hoặc đổi trang
+    setIsLoading(true);
+
     courseService
       .getCoursePaginated(currentPage, pageSize)
       .then((res) => {
-        // Dựa trên interface PaginatedResult trong type.ts của bạn
         setCourseData(res.data.items);
         setTotalPages(res.data.totalPages);
+        
+        // Cuộn nhẹ lên đầu danh sách để người dùng dễ theo dõi trang mới
+        window.scrollTo({ top: 500, behavior: 'smooth' });
       })
       .catch((err) => {
         console.error("Lỗi lấy danh sách khóa học:", err);
+      })
+      .finally(() => {
+        // 2. Tắt loading sau khi hoàn tất (dù thành công hay lỗi)
+        // Delay nhẹ 300ms để hiệu ứng skeleton không bị chớp tắt quá nhanh
+        setTimeout(() => setIsLoading(false), 300);
       });
-  }, [currentPage]); // Chạy lại mỗi khi currentPage thay đổi
+  }, [currentPage]);
 
   return (
     <div className="container mx-auto py-10">
-      <h2 className="text-2xl font-bold text-white mb-6">DANH SÁCH KHÓA HỌC</h2>
+      <h2 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
+        Danh sách khóa học
+      </h2>
 
-      {/* Hiển thị danh sách thẻ khóa học */}
+      {/* Hiển thị danh sách: Nếu isLoading thì hiện Skeleton, ngược lại hiện Card thật */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {courseData.map((course) => (
-          <CourseCard key={course.maKhoaHoc} course={course} />
-        ))}
+        {isLoading
+          ? // Tạo mảng giả 8 phần tử để hiển thị skeleton
+            [...Array(pageSize)].map((_, index) => (
+              <SkeletonLoading key={index} />
+            ))
+          : courseData.map((course) => (
+              <CourseCard key={course.maKhoaHoc} course={course} />
+            ))}
       </div>
 
-      {/* Thanh phân trang đơn giản */}
-      <div className="flex justify-center items-center space-x-4 mt-10">
+      {/* Thanh phân trang */}
+      <div className="flex justify-center items-center space-x-4 mt-12">
         <button
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || isLoading}
           onClick={() => setCurrentPage(currentPage - 1)}
-          className="px-4 py-2 bg-slate-800 text-white rounded disabled:opacity-50"
+          className="px-6 py-2 bg-slate-800 text-white rounded-xl font-semibold hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
         >
           Trang trước
         </button>
 
-        <span className="text-white font-bold">
-          Trang {currentPage} / {totalPages}
-        </span>
+        <div className="flex items-center bg-slate-800/50 px-4 py-2 rounded-lg border border-white/5">
+          <span className="text-cyan-400 font-bold mr-1">{currentPage}</span>
+          <span className="text-slate-500 mx-2">/</span>
+          <span className="text-white">{totalPages}</span>
+        </div>
 
         <button
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || isLoading}
           onClick={() => setCurrentPage(currentPage + 1)}
-          className="px-4 py-2 bg-slate-800 text-white rounded disabled:opacity-50"
+          className="px-6 py-2 bg-slate-800 text-white rounded-xl font-semibold hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
         >
           Trang sau
         </button>

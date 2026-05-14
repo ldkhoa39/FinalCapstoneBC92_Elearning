@@ -8,7 +8,7 @@ import HomeTemplate from "../pages/HomeTemplate";
 // Pages
 import Home from "../pages/HomeTemplate/Home";
 // import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
-// import Detail from "../pages/HomeTemplate/Detail";
+import Detail from "../pages/HomeTemplate/_Components/Detail";
 // import Login from "../pages/HomeTemplate/Auth/Login";
 // import Register from "../pages/HomeTemplate/Auth/Register";
 // import Profile from "../pages/HomeTemplate/Profile";
@@ -37,7 +37,7 @@ const Router = () => {
         // Course Detail
         {
           path: "detail/:id",
-          // element: <Detail />,
+          element: <Detail />,
         },
 
         // Auth
