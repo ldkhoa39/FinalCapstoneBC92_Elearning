@@ -1,4 +1,4 @@
-// COMMON TYPES
+// 1. COMMON TYPES
 export interface PaginatedResult<T> {
   currentPage: number;
   count: number;
@@ -7,12 +7,12 @@ export interface PaginatedResult<T> {
   items: T[];
 }
 
-// USER TYPES
+// 2. USER TYPES
 export type UserRole = "HV" | "GV";
 
+// Interface gốc dùng cho hiển thị thông tin chung
 export interface User {
   taiKhoan: string;
-  matKhau?: string;
   hoTen: string;
   soDT: string;
   email: string;
@@ -20,8 +20,30 @@ export interface User {
   maNhom: string;
 }
 
-export interface UserLogin extends User {
+/**
+ * Data gửi lên khi Đăng Ký (Register)
+ * SỬA ĐỔI: Dùng Omit để loại bỏ 'maLoaiNguoiDung' 
+ * vì API Đăng ký chỉ nhận 6 trường (khớp với Swagger image_bd4c1d.png)
+ */
+export interface RegisterPayload extends Omit<User, 'maLoaiNguoiDung'> {
+  matKhau: string;
+}
+
+// Data gửi lên khi Đăng Nhập (Login)
+export interface LoginPayload {
+  taiKhoan: string;
+  matKhau: string;
+}
+
+// Data nhận về sau khi Login thành công (Chứa AccessToken)
+export interface UserLogin extends Omit<User, 'maNhom'> {
+  maNhom: string;
   accessToken: string;
+}
+
+// Data Profile đầy đủ (Dùng cho trang cá nhân sau này)
+export interface UserProfile extends User {
+  chiTietKhoaHocGhiDanh: Course[];
 }
 
 export interface UserType {
@@ -29,7 +51,7 @@ export interface UserType {
   tenLoaiNguoiDung: string;
 }
 
-// COURSE TYPES
+// 3. COURSE TYPES 
 export interface CourseCategory {
   maDanhMuc: string;     
   tenDanhMuc: string;      
@@ -56,7 +78,7 @@ export interface Course {
   danhMucKhoaHoc: CourseCategory;
 }
 
-// ENROLLMENT TYPES
+// 4. ENROLLMENT TYPES 
 export interface EnrollmentPayload {
   maKhoaHoc: string;
   taiKhoan: string;
