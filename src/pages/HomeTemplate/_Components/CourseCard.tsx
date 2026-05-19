@@ -19,7 +19,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
     if (target.src !== fallback) {
       target.src = fallback;
     } else {
-      target.onerror = null; // Nếu ảnh dự phòng cũng lỗi thì dừng hẳn
+      target.onerror = null;
     }
   };
 
