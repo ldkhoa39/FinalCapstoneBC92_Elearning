@@ -10,7 +10,7 @@ import Home from "../pages/HomeTemplate/Home";
 import Detail from "../pages/HomeTemplate/Detail";
 import Login from "../pages/AuthTemplate/Auth/Login"; // Đường dẫn theo cấu trúc mới
 import Register  from "../pages/AuthTemplate/Auth/Register";
-// import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
+import CourseCatalog from "../pages/HomeTemplate/CourseCatalog"
 // import Profile from "../pages/HomeTemplate/Profile";
 
 const Router = () => {
@@ -24,8 +24,7 @@ const Router = () => {
       children: [
         { index: true, element: <Home /> },
         { path: "detail/:id", element: <Detail /> },
-        
-        // { path: "course-category/:id", element: <CourseCatalog /> },
+        { path: "course-category/:maDanhMuc", element: <CourseCatalog /> },
         // { path: "profile", element: <Profile /> },
       ],
     },

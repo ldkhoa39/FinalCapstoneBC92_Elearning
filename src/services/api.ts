@@ -13,15 +13,14 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.request.use(
   (config) => {
-    // 1. Lên LocalStorage tìm xem có userLogin không
+    // Lên LocalStorage tìm userLogin 
     const userLocal = localStorage.getItem("userLogin");
     
     if (userLocal) {
-      // 2. Parse chuỗi JSON thành object
+      // Parse chuỗi JSON thành object
       const user = JSON.parse(userLocal);
       
-      // 3. Lấy accessToken và gắn vào Header Authorization
-      // (Khoa check lại xem trong object user của bạn là accessToken hay mã token nhé, thường là accessToken)
+      // Lấy accessToken và gắn vào Header Authorization
       if (user.accessToken) {
         config.headers.Authorization = `Bearer ${user.accessToken}`;
       }
