@@ -60,4 +60,11 @@ export const courseService = {
     );
   },
 
+  // 8. Ghi danh khóa học (Truyền payload gồm maKhoaHoc và taiKhoan)
+  ghiDanhKhoaHoc: (payload: { maKhoaHoc: string; taiKhoan: string }) => {
+    return api.post("QuanLyKhoaHoc/DangKyKhoaHoc", payload);
+  },
+
+  
+
 };

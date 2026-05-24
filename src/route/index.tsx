@@ -7,7 +7,7 @@ import AuthTemplate from "../pages/AuthTemplate"; // Import Template mới
 
 // Pages
 import Home from "../pages/HomeTemplate/Home";
-import Detail from "../pages/HomeTemplate/_Components/Detail";
+import Detail from "../pages/HomeTemplate/Detail";
 import Login from "../pages/AuthTemplate/Auth/Login"; // Đường dẫn theo cấu trúc mới
 import Register  from "../pages/AuthTemplate/Auth/Register";
 // import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
