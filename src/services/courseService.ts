@@ -70,4 +70,15 @@ export const courseService = {
     return api.post("QuanLyKhoaHoc/HuyGhiDanh", payload);
   },
 
+  // 10. Tìm kiếm danh sách khoá học
+  layDanhSachKhoaHoc: (tenKhoaHoc?: string) => {
+    // Lưu ý: Đổi GP01 thành mã nhóm của bạn nếu cần
+    const url = tenKhoaHoc 
+      ? `/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${encodeURIComponent(tenKhoaHoc)}&MaNhom=GP01`
+      : `/QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=GP01`;
+    
+    // api là instance của axios bạn đã setup
+    return api.get(url); 
+  },
+
 };

@@ -31,7 +31,9 @@ const Header: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?keyword=${searchQuery}`);
+      const encodedQuery = encodeURIComponent(searchQuery.trim());
+      
+      navigate(`/search?keyword=${encodedQuery}`);
       setSearchQuery("");
     }
   };

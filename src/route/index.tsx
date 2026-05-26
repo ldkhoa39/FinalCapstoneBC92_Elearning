@@ -3,14 +3,15 @@ import { useRoutes } from "react-router-dom";
 
 // Templates
 import HomeTemplate from "../pages/HomeTemplate";
-import AuthTemplate from "../pages/AuthTemplate"; // Import Template mới
+import AuthTemplate from "../pages/AuthTemplate";
 
 // Pages
 import Home from "../pages/HomeTemplate/Home";
 import Detail from "../pages/HomeTemplate/Detail";
-import Login from "../pages/AuthTemplate/Auth/Login"; // Đường dẫn theo cấu trúc mới
+import Login from "../pages/AuthTemplate/Auth/Login";
 import Register  from "../pages/AuthTemplate/Auth/Register";
 import CourseCatalog from "../pages/HomeTemplate/CourseCatalog"
+import Search from "../pages/HomeTemplate/_Components/Search";
 import Profile from "../pages/HomeTemplate/Profile";
 
 const Router = () => {
@@ -26,6 +27,7 @@ const Router = () => {
         { path: "detail/:id", element: <Detail /> },
         { path: "course-category/:maDanhMuc", element: <CourseCatalog /> },
         { path: "profile", element: <Profile /> },
+        {path: "search", element: <Search />},
       ],
     },
 
