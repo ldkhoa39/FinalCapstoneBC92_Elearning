@@ -1,20 +1,23 @@
 import api from "./api";
-// Sử dụng import type cho các interface từ file type.ts nằm trong src
-import type { LoginPayload, UserLogin, RegisterPayload } from "../type";
+import type { LoginPayload, UserLogin, RegisterPayload, UserProfile } from "../type";
 
 export const userService = {
-  /**
-   * Đăng nhập người dùng
-   * Vì baseURL đã có "/api/", ta chỉ cần bắt đầu từ "QuanLyNguoiDung"
-   */
   login: (data: LoginPayload) => {
     return api.post<UserLogin>("QuanLyNguoiDung/DangNhap", data);
   },
 
-  /**
-   * Đăng ký người dùng mới
-   */
   register: (data: RegisterPayload) => {
     return api.post("QuanLyNguoiDung/DangKy", data);
   },
+
+  // Lấy thông tin tài khoản (Bao gồm danh sách khóa học đã ghi danh)
+  getProfile: () => {
+    return api.post<UserProfile>("QuanLyNguoiDung/ThongTinTaiKhoan");
+  },
+
+
+  // Cập nhật thông tin người dùng
+  updateProfile: (data: UserProfile) => {
+    return api.put("QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
+  }
 };

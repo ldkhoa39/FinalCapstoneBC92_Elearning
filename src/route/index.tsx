@@ -11,7 +11,7 @@ import Detail from "../pages/HomeTemplate/Detail";
 import Login from "../pages/AuthTemplate/Auth/Login"; // Đường dẫn theo cấu trúc mới
 import Register  from "../pages/AuthTemplate/Auth/Register";
 import CourseCatalog from "../pages/HomeTemplate/CourseCatalog"
-// import Profile from "../pages/HomeTemplate/Profile";
+import Profile from "../pages/HomeTemplate/Profile";
 
 const Router = () => {
   const routes = useRoutes([
@@ -25,7 +25,7 @@ const Router = () => {
         { index: true, element: <Home /> },
         { path: "detail/:id", element: <Detail /> },
         { path: "course-category/:maDanhMuc", element: <CourseCatalog /> },
-        // { path: "profile", element: <Profile /> },
+        { path: "profile", element: <Profile /> },
       ],
     },
 
