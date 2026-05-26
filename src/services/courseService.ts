@@ -65,6 +65,9 @@ export const courseService = {
     return api.post("QuanLyKhoaHoc/DangKyKhoaHoc", payload);
   },
 
-  
+  // 9. Hủy ghi danh khóa học
+  huyGhiDanhKhoaHoc: (payload: { maKhoaHoc: string; taiKhoan: string }) => {
+    return api.post("QuanLyKhoaHoc/HuyGhiDanh", payload);
+  },
 
 };

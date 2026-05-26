@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { userService } from "../../../services/userServices";
+import { courseService } from "../../../services/courseService";
 
 import type { Course, UserProfile } from "../../../type";
 
@@ -29,19 +30,14 @@ const tabs: { id: TabType; label: string }[] = [
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-
   const [loading, setLoading] = useState(true);
-
   const [activeTab, setActiveTab] = useState<TabType>("profile");
-
   const [search, setSearch] = useState("");
 
   const fetchProfile = useCallback(async () => {
     try {
       setLoading(true);
-
       const res = await userService.getProfile();
-
       setProfile(res.data);
     } catch (error) {
       console.error("Fetch profile failed:", error);
@@ -53,6 +49,28 @@ const Profile: React.FC = () => {
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
+
+  // HÀM XỬ LÝ HỦY KHÓA HỌC
+  const handleCancelCourse = async (maKhoaHoc: string) => {
+    if (!profile?.taiKhoan) return;
+
+    const isConfirm = window.confirm("Bạn có chắc chắn muốn hủy khóa học này không?");
+    if (!isConfirm) return;
+
+    try {
+      await courseService.huyGhiDanhKhoaHoc({
+        maKhoaHoc: maKhoaHoc,
+        taiKhoan: profile.taiKhoan,
+      });
+
+      alert("Hủy khóa học thành công!");
+      // Gọi lại hàm lấy thông tin mới để UI tự cập nhật lập tức
+      fetchProfile();
+    } catch (error) {
+      console.error("Lỗi khi hủy khóa học:", error);
+      alert("Đã xảy ra lỗi, hủy khóa học thất bại!");
+    }
+  };
 
   const enrolledCourses = useMemo(() => {
     if (!profile?.chiTietKhoaHocGhiDanh) return [];
@@ -71,7 +89,6 @@ const Profile: React.FC = () => {
       {/* BACKGROUND */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-cyan-500/10 blur-[140px] rounded-full" />
-
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-500/10 blur-[120px] rounded-full" />
       </div>
 
@@ -97,11 +114,16 @@ const Profile: React.FC = () => {
             {/* INFO */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
-                <GraduationCap className="w-4 h-4 text-cyan-400" />
-
-                <p className="text-cyan-400 text-sm font-medium">
-                  Student Dashboard
-                </p>
+                {/* TAG ĐỔI MÀU & CHỮ ĐỘNG THEO MÃ LOẠI NGƯỜI DÙNG TỪ API */}
+                {profile?.maLoaiNguoiDung === "GV" ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 rounded-full text-xs border border-amber-500/20 uppercase tracking-widest text-amber-400 font-semibold">
+                    <GraduationCap className="w-3.5 h-3.5" /> Giảng viên Cyber
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 rounded-full text-xs border border-cyan-500/20 uppercase tracking-widest text-cyan-400 font-semibold">
+                    <GraduationCap className="w-3.5 h-3.5" /> Học viên Cyber
+                  </span>
+                )}
               </div>
 
               <h1 className="text-3xl lg:text-5xl font-black tracking-tight">
@@ -117,9 +139,7 @@ const Profile: React.FC = () => {
                 <StatCard
                   icon={<BookOpen className="w-5 h-5" />}
                   label="Khóa học đã đăng ký"
-                  value={
-                    profile?.chiTietKhoaHocGhiDanh?.length?.toString() || "0"
-                  }
+                  value={profile?.chiTietKhoaHocGhiDanh?.length?.toString() || "0"}
                 />
 
                 <StatCard
@@ -162,7 +182,6 @@ const Profile: React.FC = () => {
                     }}
                   />
                 )}
-
                 <span className="relative z-10">{tab.label}</span>
               </button>
             ))}
@@ -209,7 +228,7 @@ const Profile: React.FC = () => {
                     <InfoItem
                       icon={<GraduationCap className="w-4 h-4" />}
                       label="Loại người dùng"
-                      value="Học viên"
+                      value={profile?.maLoaiNguoiDung === "GV" ? "Giảng viên" : "Học viên"}
                     />
                   </div>
                 </Card>
@@ -226,17 +245,12 @@ const Profile: React.FC = () => {
                   <div className="space-y-4">
                     <MiniStat
                       label="Tổng khóa học"
-                      value={
-                        profile?.chiTietKhoaHocGhiDanh?.length?.toString() ||
-                        "0"
-                      }
+                      value={profile?.chiTietKhoaHocGhiDanh?.length?.toString() || "0"}
                     />
-
                     <MiniStat
                       label="Email"
                       value={profile?.email || "N/A"}
                     />
-
                     <MiniStat
                       label="Tài khoản"
                       value={profile?.taiKhoan || "N/A"}
@@ -249,7 +263,6 @@ const Profile: React.FC = () => {
                     title="Khám phá thêm"
                     description="Tìm thêm khóa học phù hợp."
                   />
-
                   <button className="w-full bg-cyan-400 hover:bg-cyan-300 transition-colors text-black font-semibold py-3 rounded-2xl">
                     Khám phá khóa học
                   </button>
@@ -267,7 +280,6 @@ const Profile: React.FC = () => {
               {/* SEARCH */}
               <div className="relative mb-8">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
-
                 <input
                   type="text"
                   placeholder="Tìm kiếm khóa học..."
@@ -283,6 +295,7 @@ const Profile: React.FC = () => {
                     <CourseCard
                       key={course.maKhoaHoc}
                       course={course}
+                      onCancel={handleCancelCourse}
                     />
                   ))}
                 </div>
@@ -321,7 +334,6 @@ const SectionTitle = ({
   return (
     <div className="mb-6">
       <h2 className="text-xl font-bold">{title}</h2>
-
       <p className="text-sm text-slate-400 mt-1">{description}</p>
     </div>
   );
@@ -339,9 +351,7 @@ const StatCard = ({
   return (
     <div className="min-w-[180px] bg-white/[0.03] border border-white/10 rounded-2xl p-5">
       <div className="text-cyan-400 mb-3">{icon}</div>
-
       <p className="text-3xl font-bold">{value}</p>
-
       <p className="text-sm text-slate-400 mt-1">{label}</p>
     </div>
   );
@@ -357,7 +367,6 @@ const MiniStat = ({
   return (
     <div className="flex justify-between items-center border-b border-slate-800 pb-3">
       <span className="text-slate-400">{label}</span>
-
       <span className="font-medium text-right break-all">{value}</span>
     </div>
   );
@@ -376,10 +385,8 @@ const InfoItem = ({
     <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
       <div className="flex items-center gap-2 text-slate-400 mb-3">
         {icon}
-
         <span className="text-sm">{label}</span>
       </div>
-
       <p className="font-semibold break-all">
         {value || "Chưa cập nhật"}
       </p>
@@ -387,15 +394,20 @@ const InfoItem = ({
   );
 };
 
-const CourseCard = ({ course }: { course: Course }) => {
+interface CourseCardProps {
+  course: Course;
+  onCancel: (maKhoaHoc: string) => void;
+}
+
+const CourseCard: React.FC<CourseCardProps> = ({ course, onCancel }) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
       transition={{ duration: 0.25 }}
-      className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.03] backdrop-blur-xl"
+      className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.03] backdrop-blur-xl flex flex-col h-full"
     >
       {/* IMAGE */}
-      <div className="relative overflow-hidden h-52">
+      <div className="relative overflow-hidden h-52 shrink-0">
         <img
           src={course.hinhAnh}
           alt={course.tenKhoaHoc}
@@ -405,36 +417,39 @@ const CourseCard = ({ course }: { course: Course }) => {
               "https://placehold.co/600x400/020617/06b6d4?text=Course";
           }}
         />
-
         <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
       </div>
 
       {/* CONTENT */}
-      <div className="p-6">
-        {/* CATEGORY */}
-        <div className="inline-flex items-center rounded-full bg-cyan-500/10 border border-cyan-500/20 px-3 py-1 text-xs font-medium text-cyan-400 mb-4">
-          {course.danhMucKhoaHoc?.tenDanhMuc || "Khóa học"}
+      <div className="p-6 flex flex-col flex-1 justify-between">
+        <div>
+          {/* CATEGORY */}
+          <div className="inline-flex items-center rounded-full bg-cyan-500/10 border border-cyan-500/20 px-3 py-1 text-xs font-medium text-cyan-400 mb-4">
+            {course.danhMucKhoaHoc?.tenDanhMuc || "Khóa học"}
+          </div>
+
+          {/* TITLE */}
+          <h3 className="text-xl font-bold mb-3 line-clamp-2">
+            {course.tenKhoaHoc}
+          </h3>
+
+          {/* DESCRIPTION */}
+          <p className="text-slate-400 text-sm leading-relaxed line-clamp-3">
+            {course.moTa?.replace(/<[^>]*>/g, "") || "Chưa có mô tả cho khóa học này."}
+          </p>
         </div>
 
-        {/* TITLE */}
-        <h3 className="text-xl font-bold mb-3 line-clamp-2">
-          {course.tenKhoaHoc}
-        </h3>
-
-        {/* DESCRIPTION */}
-        <p className="text-slate-400 text-sm leading-relaxed line-clamp-3">
-          {course.moTa?.replace(/<[^>]*>/g, "") ||
-            "Chưa có mô tả cho khóa học này."}
-        </p>
-
         {/* ACTION */}
-        <div className="flex items-center justify-between mt-6">
-          <button className="bg-cyan-400 hover:bg-cyan-300 transition-colors text-black font-semibold px-5 py-3 rounded-xl">
+        <div className="flex items-center justify-between mt-6 pt-2">
+          <button className="bg-cyan-400 hover:bg-cyan-300 transition-colors text-black font-semibold px-5 py-3 rounded-xl text-sm">
             Xem khóa học
           </button>
 
-          <button className="text-sm text-slate-500 hover:text-red-400 transition-colors">
-            Hủy
+          <button 
+            onClick={() => onCancel(course.maKhoaHoc)}
+            className="text-sm text-slate-500 hover:text-red-400 font-medium transition-colors"
+          >
+            Hủy khóa
           </button>
         </div>
       </div>
@@ -448,11 +463,9 @@ const EmptyState = () => {
       <div className="w-24 h-24 rounded-full bg-cyan-500/10 flex items-center justify-center mx-auto mb-6">
         <BookOpen className="w-10 h-10 text-cyan-400" />
       </div>
-
       <h2 className="text-2xl font-bold mb-3">
         Không tìm thấy khóa học
       </h2>
-
       <p className="text-slate-400 max-w-md mx-auto">
         Không có khóa học nào phù hợp với từ khóa tìm kiếm của bạn.
       </p>
@@ -465,10 +478,8 @@ const ProfileSkeleton = () => {
     <div className="min-h-screen bg-[#020617] px-4 py-20 animate-pulse">
       <div className="max-w-7xl mx-auto">
         <div className="h-72 rounded-[32px] bg-slate-900 border border-slate-800" />
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10">
           <div className="lg:col-span-2 h-96 rounded-[28px] bg-slate-900 border border-slate-800" />
-
           <div className="h-96 rounded-[28px] bg-slate-900 border border-slate-800" />
         </div>
       </div>
