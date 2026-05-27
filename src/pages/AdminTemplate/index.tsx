@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import AdminNavbar from './_components/AdminNavbar';
 import Sidebar from './_components/Sidebar'; // Bạn nhớ đổi tên file 'Sidebard' thành 'Sidebar' nhé
 import AdminBreadcrumb from './_components/AdminBreadcrumb';
+import Dashboard from './Dashboard';
 
 const AdminTemplate: React.FC = () => {
   // State quản lý việc đóng/mở Sidebar (hữu ích khi làm responsive trên Mobile)
@@ -33,6 +34,7 @@ const AdminTemplate: React.FC = () => {
             {/* DYNAMIC CONTENT (Nơi các trang con như Dashboard, Course, User sẽ hiển thị) */}
             <div className="mt-6">
               <Outlet />
+              <Dashboard />
             </div>
 
           </div>
