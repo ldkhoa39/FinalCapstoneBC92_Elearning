@@ -81,4 +81,19 @@ export const courseService = {
     return api.get(url); 
   },
 
+  // 11. Xóa khóa học
+  deleteCourse: (maKhoaHoc: string) => {
+    return api.delete(`/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${maKhoaHoc}`);
+  },
+
+  // 12. Thêm khóa học có upload hình
+  addCourseUploadImage: (formData: FormData) => {
+    return api.post(`/QuanLyKhoaHoc/ThemKhoaHocUploadHinh`, formData);
+  },
+
+  // 13. Cập nhật khóa học có upload hình
+  updateCourseUploadImage: (formData: FormData) => {
+    return api.post(`/QuanLyKhoaHoc/CapNhatKhoaHocUpload`, formData);
+  }
+
 };

@@ -17,7 +17,7 @@ import Profile from "../pages/HomeTemplate/Profile";
 
 // Pages Admin (Thêm cụm import này)
 // import Dashboard from "../pages/AdminTemplate/Dashboard";
-// import CourseManagement from "../pages/AdminTemplate/CourseManagement";
+import CourseManagement from "../pages/AdminTemplate/CourseManagement";
 // import UserManagement from "../pages/AdminTemplate/UserManagement";
 
 const Router = () => {
@@ -68,7 +68,7 @@ const Router = () => {
         // Trang quản lý khóa học: /admin/course-management
         {
           path: "course-management",
-          // element: <CourseManagement />,
+          element: <CourseManagement />,
         },
       ],
     },
