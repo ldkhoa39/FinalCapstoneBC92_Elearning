@@ -41,7 +41,7 @@ const Header: React.FC = () => {
   // Hàm xử lý đăng xuất khi click nút Log out
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login"); // Đăng xuất xong đá user về trang login luôn cho chuyên nghiệp
+    navigate("/login"); // Đăng xuất xong chuyển user về trang login 
   };
 
   return (
@@ -121,64 +121,76 @@ const Header: React.FC = () => {
               </NavLink>
             </li>
 
-            {userLogin ? (
-              /* ĐÃ ĐĂNG NHẬP (HIỂN THỊ DROPDOWN AVATAR) */
-              <li className="relative group py-2 ml-4">
-                <button className="flex items-center space-x-3 text-slate-200 hover:text-accent-cyan transition-colors focus:outline-none">
-                  {/* Avatar tròn lấy chữ cái đầu của họ tên làm đại diện */}
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-                    {userLogin.hoTen ? userLogin.hoTen.charAt(0).toUpperCase() : "U"}
-                  </div>
-                  <span className="text-sm font-semibold max-w-[120px] truncate">
-                    {userLogin.hoTen}
-                  </span>
-                  <i className="fa fa-chevron-down text-[10px] text-slate-500 transition-transform group-hover:rotate-180"></i>
-                </button>
+            {/* CỤM ĐIỀU KHIỂN GÓC PHẢI (CHỨA NÚT ADMIN PHƠI RA NGOÀI) */}
+            <div className="flex flex-col md:flex-row items-center gap-5 mt-4 md:mt-0 border-t md:border-t-0 border-slate-800/50 pt-4 md:pt-0 w-full md:w-auto justify-center">
+              
+              {/* Nút ADMIN độc lập - Ai cũng thấy, bấm phát bay vào /admin liền */}
+              <Link
+                to="/admin"
+                className="px-4 py-2 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-400 text-[13px] font-bold uppercase tracking-wider hover:bg-amber-500 hover:text-slate-950 transition-all shadow-[0_0_20px_rgba(245,158,11,0.15)] flex items-center gap-2"
+              >
+                <i className="fa fa-user-shield text-sm"></i>
+                ADMIN
+              </Link>
 
-                {/* Dropdown Menu khi Hover vào Avatar */}
-                <div className="absolute right-0 top-full pt-2 z-50 hidden group-hover:block w-52">
-                  <div className="bg-[#0F172A]/95 backdrop-blur-xl border border-slate-800 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden p-1">
-                    <div className="px-4 py-2.5 border-b border-slate-800/60 mb-1">
-                      <p className="text-xs text-slate-500">Tài khoản học viên</p>
-                      <p className="text-sm font-bold text-slate-300 truncate">{userLogin.taiKhoan}</p>
+              {userLogin ? (
+                /* ĐÃ ĐĂNG NHẬP (HIỂN THỊ DROPDOWN AVATAR NHƯ CŨ) */
+                <li className="relative group list-none">
+                  <button className="flex items-center space-x-3 text-slate-200 hover:text-accent-cyan transition-colors focus:outline-none">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                      {userLogin.hoTen ? userLogin.hoTen.charAt(0).toUpperCase() : "U"}
                     </div>
+                    <span className="text-sm font-semibold max-w-[120px] truncate">
+                      {userLogin.hoTen}
+                    </span>
+                    <i className="fa fa-chevron-down text-[10px] text-slate-500 transition-transform group-hover:rotate-180"></i>
+                  </button>
 
-                    <Link 
-                      to="/profile" 
-                      className="flex items-center space-x-2.5 px-4 py-2.5 text-sm text-slate-400 hover:bg-white/5 hover:text-white rounded-lg transition-all"
-                    >
-                      <i className="fa fa-user text-xs text-slate-500"></i>
-                      <span>Trang cá nhân</span>
-                    </Link>
+                  <div className="absolute right-0 top-full pt-2 z-50 hidden group-hover:block w-52">
+                    <div className="bg-[#0F172A]/95 backdrop-blur-xl border border-slate-800 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden p-1">
+                      <div className="px-4 py-2.5 border-b border-slate-800/60 mb-1">
+                        <p className="text-xs text-slate-500">Tài khoản học viên</p>
+                        <p className="text-sm font-bold text-slate-300 truncate">{userLogin.taiKhoan}</p>
+                      </div>
 
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center space-x-2.5 px-4 py-2.5 text-sm text-left text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-all border-t border-slate-800/40 mt-1"
-                    >
-                      <i className="fa fa-sign-out text-xs"></i>
-                      <span>Đăng xuất</span>
-                    </button>
+                      <Link 
+                        to="/profile" 
+                        className="flex items-center space-x-2.5 px-4 py-2.5 text-sm text-slate-400 hover:bg-white/5 hover:text-white rounded-lg transition-all"
+                      >
+                        <i className="fa fa-user text-xs text-slate-500"></i>
+                        <span>Trang cá nhân</span>
+                      </Link>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center space-x-2.5 px-4 py-2.5 text-sm text-left text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-all border-t border-slate-800/40 mt-1"
+                      >
+                        <i className="fa fa-sign-out text-xs"></i>
+                        <span>Đăng xuất</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ) : (
-              /* CHƯA ĐĂNG NHẬP (HIỂN THỊ CỤM LOGIN/REGISTER CŨ) */
-              <div className="flex items-center gap-5 ml-4 mt-4 md:mt-0">
-                <Link
-                  to="/login"
-                  className="text-slate-400 text-[13px] font-bold uppercase hover:text-white transition-colors"
-                >
-                  Đăng nhập
-                </Link>
+                </li>
+              ) : (
+                /* CHƯA ĐĂNG NHẬP (HIỂN THỊ CỤM LOGIN/REGISTER) */
+                <div className="flex items-center gap-5">
+                  <Link
+                    to="/login"
+                    className="text-slate-400 text-[13px] font-bold uppercase hover:text-white transition-colors"
+                  >
+                    Đăng nhập
+                  </Link>
 
-                <Link
-                  to="/register"
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-blue to-accent-cyan text-[#020617] text-[13px] font-bold uppercase tracking-tight shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition-all"
-                >
-                  Ghi danh
-                </Link>
-              </div>
-            )}
+                  <Link
+                    to="/register"
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-blue to-accent-cyan text-[#020617] text-[13px] font-bold uppercase tracking-tight shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                  >
+                    Ghi danh
+                  </Link>
+                </div>
+              )}
+            </div>
+
           </ul>
         </div>
       </div>
