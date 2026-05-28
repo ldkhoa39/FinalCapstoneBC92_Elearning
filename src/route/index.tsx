@@ -1,10 +1,11 @@
 // src/routes/index.tsx
 import { useRoutes } from "react-router-dom";
 
-// Templates
+// Templates & Chốt chặn Bảo mật
 import HomeTemplate from "../pages/HomeTemplate";
 import AuthTemplate from "../pages/AuthTemplate";
-import AdminTemplate from "../pages/AdminTemplate"; // Thêm dòng này
+import AdminTemplate from "../pages/AdminTemplate"; 
+import AdminGuard from "../components/AdminGuard"; 
 
 // Pages Client
 import Home from "../pages/HomeTemplate/Home";
@@ -15,9 +16,10 @@ import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
 import Search from "../pages/HomeTemplate/_Components/Search";
 import Profile from "../pages/HomeTemplate/Profile";
 
-// Pages Admin (Thêm cụm import này)
-// import Dashboard from "../pages/AdminTemplate/Dashboard";
+// Pages Admin
+import AdminLogin from "../pages/AdminLogin"; 
 import CourseManagement from "../pages/AdminTemplate/CourseManagement";
+// import Dashboard from "../pages/AdminTemplate/Dashboard";
 // import UserManagement from "../pages/AdminTemplate/UserManagement";
 
 const Router = () => {
@@ -38,7 +40,7 @@ const Router = () => {
     },
 
     // ========================================================
-    // AUTH ROUTES (Layout riêng, không vướng Header/Footer trang Home)
+    // CLIENT AUTH ROUTES (Layout riêng cho Học viên đăng nhập/đăng ký)
     // ========================================================
     {
       path: "/", 
@@ -50,13 +52,25 @@ const Router = () => {
     },
 
     // ========================================================
-    // ADMIN ROUTES (Đã lên đồ chuẩn chỉnh)
+    // ADMIN AUTH ROUTE (Hoàn toàn độc lập, giao diện Blank Layout)
+    // ========================================================
+    {
+      path: "/admin/login",
+      element: <AdminLogin />, // Đứng một mình, không bị vướng Sidebar hay Navbar bọc ngoài
+    },
+
+    // ========================================================
+    // PROTECTED ADMIN ROUTES (Đã được bảo vệ nghiêm ngặt)
     // ========================================================
     {
       path: "/admin",
-      element: <AdminTemplate />, // Đã kích hoạt layout tổng AdminTemplate ở đây
+      element: (
+        <AdminGuard>
+          <AdminTemplate />
+        </AdminGuard>
+      ), // Chỉ khi AdminGuard mở cửa, AdminTemplate mới bắt đầu render layout
       children: [
-        // Trang chính khi vừa vào /admin (Ví dụ: xem biểu đồ thống kê)
+        // Trang chính mặc định khi vào /admin
         // { index: true, element: <Dashboard /> },
         
         // Trang quản lý người dùng: /admin/user-management
