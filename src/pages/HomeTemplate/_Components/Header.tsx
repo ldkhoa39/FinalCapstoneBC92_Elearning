@@ -124,9 +124,9 @@ const Header: React.FC = () => {
             {/* CỤM ĐIỀU KHIỂN GÓC PHẢI (CHỨA NÚT ADMIN PHƠI RA NGOÀI) */}
             <div className="flex flex-col md:flex-row items-center gap-5 mt-4 md:mt-0 border-t md:border-t-0 border-slate-800/50 pt-4 md:pt-0 w-full md:w-auto justify-center">
               
-              {/* Nút ADMIN độc lập - Ai cũng thấy, bấm phát bay vào /admin liền */}
+              {/* Nút ADMIN */}
               <Link
-                to="/admin"
+                to="/admin/login"
                 className="px-4 py-2 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-400 text-[13px] font-bold uppercase tracking-wider hover:bg-amber-500 hover:text-slate-950 transition-all shadow-[0_0_20px_rgba(245,158,11,0.15)] flex items-center gap-2"
               >
                 <i className="fa fa-user-shield text-sm"></i>
