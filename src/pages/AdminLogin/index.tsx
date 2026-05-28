@@ -1,5 +1,8 @@
+
+// src/pages/AdminTemplate/AdminLogin/index.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '../../services/authadminService';
 
 const AdminLogin: React.FC = () => {
   const [taiKhoan, setTaiKhoan] = useState('');
@@ -10,79 +13,83 @@ const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Kiểm tra rỗng
-    if (!taiKhoan.trim() || !matKhau.trim()) {
-      setError('Vui lòng nhập đầy đủ tài khoản và mật khẩu!');
-      return;
-    }
+  e.preventDefault();
 
+  try {
     setIsLoading(true);
     setError('');
 
-    try {
-      // BƯỚC 1: CHỖ NÀY SAU NÀY GỌI API THẬT
-      // Ví dụ: const res = await authService.loginAdmin({ taiKhoan, matKhau });
-      
-      // TẠM THỜI: Giả lập thời gian chờ API 1 giây
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    // 👉 GỌI API LOGIN THẬT
+    const res = await authService.login({
+      taiKhoan,
+      matKhau,
+    });
 
-      // BƯỚC 2: KIỂM TRA ĐĂNG NHẬP (Giả lập logic)
-      // Tạm thời mình fix cứng tài khoản test là admin / 123456
-      if (taiKhoan === 'admin' && matKhau === '123456') {
-        
-        // Lưu thông tin vào localStorage để AdminGuard kiểm tra
-        const mockUserInfo = {
-          taiKhoan: 'admin',
-          hoTen: 'Quản Trị Viên',
-          maLoaiNguoiDung: 'GV', // Bắt buộc phải là GV để lọt qua AdminGuard
-          accessToken: 'chuoi-token-gia-lap-abc-xyz'
-        };
-        localStorage.setItem('userLogin', JSON.stringify(mockUserInfo));
+    // 👉 LOG RA ĐỂ XEM SERVER TRẢ GÌ
+    console.log("LOGIN RESPONSE:", res.data);
 
-        // BƯỚC 3: CHUYỂN HƯỚNG VÀO TRANG QUẢN TRỊ
-        navigate('/admin/course-management');
-        
-      } else {
-        setError('Tài khoản hoặc mật khẩu không chính xác! (Gợi ý: admin / 123456)');
-      }
-
-    } catch (err: any) {
-      setError(err.response?.data || 'Có lỗi xảy ra khi kết nối đến máy chủ!');
-    } finally {
+    // 👉 KIỂM TRA QUYỀN ADMIN
+    if (res.data.maLoaiNguoiDung !== 'GV') {
+      setError('Tài khoản không có quyền admin!');
       setIsLoading(false);
+      return;
     }
-  };
+
+    // 👉 LƯU USER THẬT
+    localStorage.setItem('userLogin', JSON.stringify(res.data));
+
+    // 👉 CHUYỂN TRANG
+    navigate('/admin/course-management');
+
+  } catch (err: any) {
+    console.log("LOGIN ERROR:", err);
+
+    setError(
+      err.response?.data || 'Đăng nhập thất bại!'
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#020617] flex items-center justify-center p-4 relative overflow-hidden">
-      
-      {/* Background Đèn Led Ám */}
+
+      {/* Background */}
       <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]"></div>
       <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px]"></div>
 
       <div className="w-full max-w-md bg-slate-900/60 backdrop-blur-2xl border border-slate-800 rounded-3xl shadow-2xl p-8 relative z-10 animate-fade-in">
-        
-        {/* Logo Brand */}
+
+        {/* Header */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 mx-auto bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-4">
             <i className="fa fa-shield-alt text-slate-950 text-2xl"></i>
           </div>
-          <h2 className="text-2xl font-black text-white tracking-wide uppercase">Cổng Đăng Nhập</h2>
-          <p className="text-xs text-slate-400 mt-1.5 font-medium">Khu vực dành riêng cho Ban Quản Trị & Giáo Vụ</p>
+
+          <h2 className="text-2xl font-black text-white tracking-wide uppercase">
+            Cổng Đăng Nhập
+          </h2>
+
+          <p className="text-xs text-slate-400 mt-1.5 font-medium">
+            Khu vực dành riêng cho Ban Quản Trị & Giáo Vụ
+          </p>
         </div>
 
-        {/* Form Đăng Nhập */}
+        {/* Form */}
         <form onSubmit={handleLoginSubmit} className="space-y-5">
-          
-          {/* Input Tài Khoản */}
+
+          {/* Tài khoản */}
           <div>
-            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Tài khoản</label>
+            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              Tài khoản
+            </label>
+
             <div className="relative group">
               <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-cyan-400 transition-colors">
                 <i className="fa fa-user"></i>
               </span>
+
               <input
                 type="text"
                 value={taiKhoan}
@@ -96,13 +103,17 @@ const AdminLogin: React.FC = () => {
             </div>
           </div>
 
-          {/* Input Mật Khẩu */}
+          {/* Mật khẩu */}
           <div>
-            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Mật khẩu</label>
+            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              Mật khẩu
+            </label>
+
             <div className="relative group">
               <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-cyan-400 transition-colors">
                 <i className="fa fa-lock"></i>
               </span>
+
               <input
                 type="password"
                 value={matKhau}
@@ -116,7 +127,7 @@ const AdminLogin: React.FC = () => {
             </div>
           </div>
 
-          {/* Hiển thị lỗi */}
+          {/* Error */}
           {error && (
             <div className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-xs font-medium animate-fade-in">
               <i className="fa fa-exclamation-circle text-sm"></i>
@@ -124,7 +135,7 @@ const AdminLogin: React.FC = () => {
             </div>
           )}
 
-          {/* Nút Submit */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={isLoading}
@@ -140,14 +151,15 @@ const AdminLogin: React.FC = () => {
             )}
           </button>
         </form>
-        
-        {/* Nút Back về trang chủ User */}
+
+        {/* Back Home */}
         <div className="mt-6 pt-6 border-t border-slate-800/60 text-center">
-          <button 
+          <button
             onClick={() => navigate('/')}
             className="text-xs text-slate-500 hover:text-slate-300 transition-colors flex items-center justify-center gap-2 mx-auto"
           >
-            <i className="fa fa-arrow-left"></i> Quay lại trang chủ học viên
+            <i className="fa fa-arrow-left"></i>
+            Quay lại trang chủ học viên
           </button>
         </div>
 
@@ -157,3 +169,4 @@ const AdminLogin: React.FC = () => {
 };
 
 export default AdminLogin;
+

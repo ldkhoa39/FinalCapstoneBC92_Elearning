@@ -16,6 +16,7 @@ api.interceptors.request.use(
     // Lên LocalStorage tìm userLogin 
     const userLocal = localStorage.getItem("userLogin");
     
+    
     if (userLocal) {
       // Parse chuỗi JSON thành object
       const user = JSON.parse(userLocal);
@@ -23,6 +24,8 @@ api.interceptors.request.use(
       // Lấy accessToken và gắn vào Header Authorization
       if (user.accessToken) {
         config.headers.Authorization = `Bearer ${user.accessToken}`;
+        console.log("USER LOCAL:", user);
+        console.log("TOKEN:", user.accessToken);
       }
     }
     return config;
