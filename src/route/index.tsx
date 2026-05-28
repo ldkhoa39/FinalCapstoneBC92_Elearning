@@ -16,9 +16,9 @@ import Search from "../pages/HomeTemplate/_Components/Search";
 import Profile from "../pages/HomeTemplate/Profile";
 
 // Pages Admin (Thêm cụm import này)
-// import Dashboard from "../pages/AdminTemplate/Dashboard";
+import Dashboard from "../pages/AdminTemplate/Dashboard";
 import CourseManagement from "../pages/AdminTemplate/CourseManagement";
-// import UserManagement from "../pages/AdminTemplate/UserManagement";
+import UserManagement from "../pages/AdminTemplate/UserManagement";
 
 const Router = () => {
   const routes = useRoutes([
@@ -57,12 +57,12 @@ const Router = () => {
       element: <AdminTemplate />, // Đã kích hoạt layout tổng AdminTemplate ở đây
       children: [
         // Trang chính khi vừa vào /admin (Ví dụ: xem biểu đồ thống kê)
-        // { index: true, element: <Dashboard /> },
+        { index: true, element: <Dashboard /> },
         
         // Trang quản lý người dùng: /admin/user-management
         {
           path: "user-management",
-          // element: <UserManagement />,
+          element: <UserManagement />,
         },
         
         // Trang quản lý khóa học: /admin/course-management
