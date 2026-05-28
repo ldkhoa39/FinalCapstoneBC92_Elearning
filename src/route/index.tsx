@@ -16,9 +16,10 @@ import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
 import Search from "../pages/HomeTemplate/_Components/Search";
 import Profile from "../pages/HomeTemplate/Profile";
 
-// Pages Admin (Thêm cụm import này)
-// import Dashboard from "../pages/AdminTemplate/Dashboard";
+// Pages Admin
+import AdminLogin from "../pages/AdminLogin"; 
 import CourseManagement from "../pages/AdminTemplate/CourseManagement";
+// import Dashboard from "../pages/AdminTemplate/Dashboard";
 // import UserManagement from "../pages/AdminTemplate/UserManagement";
 
 const Router = () => {
@@ -69,13 +70,13 @@ const Router = () => {
         </AdminGuard>
       ), // Chỉ khi AdminGuard mở cửa, AdminTemplate mới bắt đầu render layout
       children: [
-        // Trang chính khi vừa vào /admin (Ví dụ: xem biểu đồ thống kê)
+        // Trang chính mặc định khi vào /admin
         // { index: true, element: <Dashboard /> },
         
         // Trang quản lý người dùng: /admin/user-management
         {
           path: "user-management",
-          element: <UserManagement />,
+          // element: <UserManagement />,
         },
         
         // Trang quản lý khóa học: /admin/course-management
