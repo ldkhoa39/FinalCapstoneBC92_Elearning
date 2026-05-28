@@ -2,11 +2,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { courseService } from '../../../services/courseService'; 
 import DeleteCourseModal from '../_components/DeleteCourse';
+import AddCourse from '../_components/AddCourseModal';
 
 const CourseManagement: React.FC = () => {
   const [courses, setCourses] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Thêm khoá học
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Delete khoá học
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -30,8 +34,7 @@ const CourseManagement: React.FC = () => {
     fetchCourses();
   }, [fetchCourses]);
 
-  // Xử lý logic tìm kiếm cơ bản ngay trên frontend (nếu backend không có API search riêng)
-  // Nếu backend có API search riêng, bạn sẽ gọi API đó trong onChange của input
+  // Xử lý logic tìm kiếm
   const filteredCourses = courses.filter(course => 
     course.tenKhoaHoc?.toLowerCase().includes(searchTerm.toLowerCase()) || 
     course.maKhoaHoc?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -61,9 +64,6 @@ const CourseManagement: React.FC = () => {
       setCourseToDelete(null);
     }
   };
-  // End Delete khoá học
-
-  
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl min-h-[70vh] animate-fade-in">
@@ -88,8 +88,11 @@ const CourseManagement: React.FC = () => {
             />
           </div>
 
-          {/* Nút Thêm Khóa Học */}
-          <button className="px-4 py-2.5 bg-gradient-to-r from-primary-blue to-accent-cyan text-[#020617] text-sm font-bold rounded-lg shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5 transition-all whitespace-nowrap">
+          {/* Nút Thêm Khóa Học (Đã gắn sự kiện onClick mở Modal) */}
+          <button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="px-4 py-2.5 bg-gradient-to-r from-primary-blue to-accent-cyan text-[#020617] text-sm font-bold rounded-lg shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5 transition-all whitespace-nowrap"
+          >
             <i className="fa fa-plus mr-2"></i> Thêm Khóa Học
           </button>
         </div>
@@ -144,7 +147,7 @@ const CourseManagement: React.FC = () => {
                   
                   <td className="px-4 py-4">
                     <span className="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 text-xs font-medium">
-                      {course.nguoiTao?.hoTen || course.nguoiTao || 'N/A'}
+                      {course.nguoiTao?.taiKhoan || course.nguoiTao || 'N/A'}
                     </span>
                   </td>
                   
@@ -179,13 +182,23 @@ const CourseManagement: React.FC = () => {
         </table>
       </div>
 
-      // 
+      {/* ================= MODALS ================= */}
       <DeleteCourseModal 
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={confirmDelete}
         courseName={courseToDelete?.ten || ""}
         isDeleting={isDeleting}
+      />
+
+      {/* Gọi Modal Thêm Khóa Học ở đây */}
+      <AddCourse 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+        onSuccess={() => {
+          setIsAddModalOpen(false); 
+          fetchCourses();
+        }}
       />
 
     </div>
