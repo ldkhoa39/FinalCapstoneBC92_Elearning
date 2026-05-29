@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Search as SearchIcon, BookOpen, AlertCircle } from "lucide-react";
-import { courseService } from "/FinalCapstoneBC92_Elearning/elearningbc92/src/services/courseService";
-import type { Course } from "/FinalCapstoneBC92_Elearning/elearningbc92/src/type";
+import { courseService } from "../../../services/courseService";
+import type { Course } from "../../../type";
 
 const Search: React.FC = () => {
   // Lấy keyword từ URL (ví dụ: /search?keyword=react)
@@ -20,24 +20,24 @@ const Search: React.FC = () => {
 
       try {
         setLoading(true);
-        const res = await courseService.layDanhSachKhoaHoc(keyword);
-
+        
+        // 🐛 Sửa dòng lỗi ở đây: Đổi từ layDanhSachKhoaHoc sang searchCourse
+        const res = await courseService.searchCourse(keyword); 
+        
         const strictResults = res.data.filter((course: Course) =>
-          course.tenKhoaHoc.toLowerCase().includes(keyword.toLowerCase()),
+          course.tenKhoaHoc.toLowerCase().includes(keyword.toLowerCase())
         );
-
-        // Set dữ liệu đã lọc sạch vào state
+        
         setCourses(strictResults);
       } catch (error) {
-        console.error("Lỗi khi tìm kiếm khóa học:", error);
-        setCourses([]); // Nếu lỗi hoặc không tìm thấy, set về mảng rỗng
+        console.error("Lỗi khi tìm kiếm:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchSearchResults();
-  }, [keyword]); // Chạy lại mỗi khi keyword trên URL thay đổi
+  }, [keyword]); 
 
   return (
     <main className="min-h-screen bg-[#020617] text-white pt-28 pb-20 px-4 lg:px-8">

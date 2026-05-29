@@ -12,11 +12,11 @@ const CourseList: React.FC = () => {
   const pageSize = 8; 
 
   useEffect(() => {
-    // 1. Bật loading mỗi khi bắt đầu gọi API hoặc đổi trang
+    // Bật loading mỗi khi bắt đầu gọi API hoặc đổi trang
     setIsLoading(true);
 
     courseService
-      .getCoursePaginated(currentPage, pageSize)
+      .getCoursePagination(currentPage, pageSize)
       .then((res) => {
         setCourseData(res.data.items);
         setTotalPages(res.data.totalPages);
@@ -28,8 +28,7 @@ const CourseList: React.FC = () => {
         console.error("Lỗi lấy danh sách khóa học:", err);
       })
       .finally(() => {
-        // 2. Tắt loading sau khi hoàn tất (dù thành công hay lỗi)
-        // Delay nhẹ 300ms để hiệu ứng skeleton không bị chớp tắt quá nhanh
+        // Delay nhẹ 300ms cho hiệu ứng skeleton
         setTimeout(() => setIsLoading(false), 300);
       });
   }, [currentPage]);
