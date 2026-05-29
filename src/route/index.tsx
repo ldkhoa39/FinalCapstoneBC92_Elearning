@@ -19,8 +19,8 @@ import Profile from "../pages/HomeTemplate/Profile";
 // Pages Admin
 import AdminLogin from "../pages/AdminLogin"; 
 import CourseManagement from "../pages/AdminTemplate/CourseManagement";
-// import Dashboard from "../pages/AdminTemplate/Dashboard";
-// import UserManagement from "../pages/AdminTemplate/UserManagement";
+import Dashboard from "../pages/AdminTemplate/Dashboard";
+import UserManagement from "../pages/AdminTemplate/UserManagement";
 
 const Router = () => {
   const routes = useRoutes([
@@ -76,7 +76,7 @@ const Router = () => {
         // Trang quản lý người dùng: /admin/user-management
         {
           path: "user-management",
-          // element: <UserManagement />,
+          element: <UserManagement />,
         },
         
         // Trang quản lý khóa học: /admin/course-management
