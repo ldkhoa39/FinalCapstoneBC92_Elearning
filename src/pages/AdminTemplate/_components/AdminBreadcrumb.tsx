@@ -15,31 +15,43 @@ const AdminBreadcrumb: React.FC = () => {
   };
 
   return (
-    <nav className="text-slate-400 text-sm mb-6 bg-card-bg w-fit px-4 py-2 rounded-lg border border-slate-800 shadow-sm">
-      <ul className="flex items-center space-x-2">
+    <nav aria-label="Breadcrumb" className="mb-6 lg:mb-8 w-full overflow-x-auto no-scrollbar">
+      {/* Đã dời comment vào bên trong thẻ nav để không bị lỗi JSX */}
+      <ol className="flex items-center space-x-1.5 w-fit whitespace-nowrap bg-slate-900/60 px-4 py-2.5 rounded-xl border border-slate-800/60 shadow-sm">
+        
+        {/* Nút Home mặc định ở đầu */}
+        <li>
+          <Link to="/admin" className="text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-2 text-sm font-medium">
+            <i className="fa fa-home"></i>
+            <span className="hidden sm:inline">Trang chủ</span>
+          </Link>
+        </li>
+
         {pathnames.map((value, index) => {
-          // Tạo lại đường dẫn cho từng cấp
           const to = `/${pathnames.slice(0, index + 1).join('/')}`;
           const isLast = index === pathnames.length - 1;
-          const title = breadcrumbNameMap[value] || value; // Dịch tên, nếu không có trong từ điển thì lấy URL gốc
+          const title = breadcrumbNameMap[value] || value;
 
           return (
             <li key={to} className="flex items-center">
-              {index > 0 && <span className="mx-2 text-slate-600"><i className="fa fa-chevron-right text-[10px]"></i></span>}
+              {/* Icon phân cách */}
+              <i className="fa fa-chevron-right text-[9px] text-slate-600 mx-1.5"></i>
               
               {isLast ? (
-                // Nếu là chặng cuối (trang hiện tại) thì in đậm và đổi màu, không click được
-                <span className="text-accent-cyan font-semibold">{title}</span>
+                // Chặng cuối: Highlight như một cái tag (badge)
+                <span className="text-cyan-400 font-bold text-[13px] px-2.5 py-1 bg-cyan-500/10 rounded-md border border-cyan-500/20 shadow-inner">
+                  {title}
+                </span>
               ) : (
-                // Nếu là chặng trước đó thì cho phép click quay lại
-                <Link to={to} className="hover:text-white transition-colors">
+                // Các chặng trước: Link text mờ, hover sáng
+                <Link to={to} className="text-slate-400 hover:text-white transition-colors text-[13px] font-medium">
                   {title}
                 </Link>
               )}
             </li>
           );
         })}
-      </ul>
+      </ol>
     </nav>
   );
 };
