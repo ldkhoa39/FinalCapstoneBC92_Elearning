@@ -18,7 +18,7 @@ export const useLogin = () => {
     onSubmit: async (values) => {
       try {
         const res = await userService.login(values);
-        // Lưu vào Redux store và localStorage đúng như logic gốc của Khoa
+        // Lưu vào Redux store và localStorage
         dispatch(setUserLogin(res.data));
         alert("Đăng nhập thành công!");
         navigate("/"); 

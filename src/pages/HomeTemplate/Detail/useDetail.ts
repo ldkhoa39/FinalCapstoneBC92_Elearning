@@ -6,7 +6,7 @@ import type { RootState } from "../../../store";
 import type { Course } from "../../../type";
 
 export const useDetail = () => {
-  // Lấy mã khóa học từ URL (ví dụ: /detail/React123 -> id = React123)
+  // Lấy mã khóa học từ URL
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   
@@ -18,7 +18,7 @@ export const useDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isEnrolling, setIsEnrolling] = useState(false); // Trạng thái loading của nút Ghi danh
 
-  // 1. Hàm gọi API lấy chi tiết khóa học
+  // Hàm gọi API lấy chi tiết khóa học
   const fetchCourseDetail = useCallback(async () => {
     if (!id) return;
     try {
@@ -36,9 +36,8 @@ export const useDetail = () => {
     fetchCourseDetail();
   }, [fetchCourseDetail]);
 
-  // 2. Hàm xử lý khi user bấm nút "Ghi danh"
+  // Hàm xử lý khi user bấm nút "Ghi danh"
   const handleEnroll = async () => {
-    // Bước A: Chưa đăng nhập thì đá sang trang Login
     if (!userLogin) {
       alert("Bạn cần đăng nhập để ghi danh khóa học này!");
       navigate("/login");
@@ -47,7 +46,6 @@ export const useDetail = () => {
 
     if (!id) return;
 
-    // Bước B: Đã đăng nhập -> Gọi API ghi danh
     try {
       setIsEnrolling(true);
       await courseService.ghiDanhKhoaHoc({
@@ -57,7 +55,6 @@ export const useDetail = () => {
       alert("🎉 Ghi danh thành công! Chúc bạn học tốt.");
     } catch (error: any) {
       console.error("Lỗi ghi danh:", error);
-      // Backend thường trả về lỗi dạng text ở data (VD: "Đã đăng ký khóa học này rồi")
       const errorMsg = error.response?.data || "Có lỗi xảy ra khi ghi danh!";
       alert(`❌ ${errorMsg}`);
     } finally {

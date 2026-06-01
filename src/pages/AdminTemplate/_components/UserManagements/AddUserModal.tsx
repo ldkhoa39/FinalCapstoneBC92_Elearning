@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { userService } from "../../../services/userServices";
+import { userService } from "../../../../services/userServices";
 
 interface AddUserModalProps {
   isOpen: boolean;

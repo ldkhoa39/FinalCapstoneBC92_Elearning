@@ -3,7 +3,6 @@ import * as Yup from "yup";
 export const registerSchema = Yup.object().shape({
   taiKhoan: Yup.string().required("Tài khoản không được để trống!"),
   
-  // GỘP CHUNG TẤT CẢ ĐIỀU KIỆN ĐỂ SHOW HẾT RA 1 LẦN
   matKhau: Yup.string()
     .required("Mật khẩu không được để trống!")
     .test(
@@ -12,14 +11,14 @@ export const registerSchema = Yup.object().shape({
       (value) => {
         if (!value) return false;
         
-        // Kiểm tra từng điều kiện một
+        // KIỂM TRA ĐIỀU KIỆN
         const hasMinLength = value.length >= 6;
         const hasLowerCase = /[a-z]/.test(value);
         const hasUpperCase = /[A-Z]/.test(value);
         const hasNumber = /[0-9]/.test(value);
         const hasSpecialChar = /[@$!%*?&]/.test(value);
         
-        // Chỉ khi thỏa mãn TẤT CẢ thì mới trả về true (hết lỗi)
+        // TẤT CẢ THOÃ MÃN THÌ TRẢ VỀ TRUE
         return hasMinLength && hasLowerCase && hasUpperCase && hasNumber && hasSpecialChar;
       }
     ),

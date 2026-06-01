@@ -13,15 +13,14 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.request.use(
   (config) => {
-    // Lên LocalStorage tìm userLogin 
+
     const userLocal = localStorage.getItem("userLogin");
     
     
     if (userLocal) {
-      // Parse chuỗi JSON thành object
+
       const user = JSON.parse(userLocal);
       
-      // Lấy accessToken và gắn vào Header Authorization
       if (user.accessToken) {
         config.headers.Authorization = `Bearer ${user.accessToken}`;
         console.log("USER LOCAL:", user);

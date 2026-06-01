@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { userService } from "../../../services/userServices";
-import type { User } from "../../../type";
+import { userService } from "../../../../services/userServices";
+import type { User } from "../../../../type";
 
 interface EditUserModalProps {
   isOpen: boolean;

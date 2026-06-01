@@ -1,8 +1,6 @@
-// src/pages/AdminTemplate/_components/AdminNavbar.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-// Ghi chú: Nếu có dùng Redux action để đăng xuất, bạn import useDispatch và action ở đây nhé
 
 interface NavbarProps {
   toggleSidebar: () => void;
@@ -13,7 +11,6 @@ const AdminNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   const navigate = useNavigate();
 
   // LẤY DỮ LIỆU TỪ REDUX ĐỂ HIỂN THỊ TÊN & AVATAR TRÊN NAVBAR
-  // Nhớ đổi 'state.user' thành đúng tên reducer của bạn
   const { userInfo } = useSelector((state: any) => state.auth || {});
 
   // Hàm lấy chữ cái đầu của tên để làm Avatar
@@ -25,14 +22,11 @@ const AdminNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 
   // Hàm xử lý đăng xuất
   const handleLogout = () => {
-    // 1. Xóa data trong localStorage
+    // Xóa data trong localStorage
     localStorage.removeItem("USER_LOGIN");
     localStorage.removeItem("TOKEN");
 
-    // 2. Dispatch Redux action để clear state (nếu có sử dụng)
-    // dispatch(logoutAction());
-
-    // 3. Chuyển hướng về trang đăng nhập hoặc trang chủ
+    //Chuyển hướng về trang đăng nhập hoặc trang chủ
     navigate("/");
   };
 
@@ -122,8 +116,6 @@ const AdminNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                 className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-800 hover:text-white flex items-center gap-3 transition-colors"
                 onClick={() => {
                   setIsDropdownOpen(false);
-                  // CHUYỂN HƯỚNG TỚI TRANG PROFILE
-                  // Bạn hãy đổi "/admin/profile" thành Route thật trong project của bạn
                   navigate("/admin/profile"); 
                 }}
               >

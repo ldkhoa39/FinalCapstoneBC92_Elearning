@@ -1,4 +1,5 @@
 // src/routes/index.tsx
+
 import { useRoutes } from "react-router-dom";
 
 import HomeTemplate from "../pages/HomeTemplate";
@@ -10,16 +11,17 @@ import AdminGuard from "../components/AdminGuard";
 import Home from "../pages/HomeTemplate/Home";
 import Detail from "../pages/HomeTemplate/Detail";
 import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
-import Search from "../pages/HomeTemplate/_Components/Search";
+import Search from "../pages/HomeTemplate/Search.tsx";
 import Profile from "../pages/HomeTemplate/Profile";
 
 import Login from "../pages/AuthTemplate/Auth/Login";
 import Register from "../pages/AuthTemplate/Auth/Register";
 
 import AdminLogin from "../pages/AdminLogin";
+import Dashboard from "../pages/AdminTemplate/Dashboard";
 import UserManagement from "../pages/AdminTemplate/UserManagement";
 import CourseManagement from "../pages/AdminTemplate/CourseManagement";
-import AdminProfile from "../pages/AdminTemplate/_components/AdminProfile";
+import AdminProfile from "../pages/AdminTemplate/_components/AdminLayout/AdminProfile";
 
 const Router = () => {
   return useRoutes([
@@ -57,6 +59,8 @@ const Router = () => {
         </AdminGuard>
       ),
       children: [
+        { index: true, element: <Dashboard /> }, // mặc định
+        { path: "dashboard", element: <Dashboard /> },
         { path: "user-management", element: <UserManagement /> },
         { path: "course-management", element: <CourseManagement /> },
         { path: "profile", element: <AdminProfile /> },

@@ -7,7 +7,6 @@ interface AdminGuardProps {
 
 const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
   // Lấy dữ liệu user đã lưu khi đăng nhập thành công
-  // (Lưu ý: Tên key 'userLogin' có thể khác tùy vào cách bạn đặt ở file Login)
   const userInfoString = localStorage.getItem('userLogin');
   const userLogin = userInfoString ? JSON.parse(userInfoString) : null;
 
@@ -16,8 +15,7 @@ const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
     return <Navigate to="/admin/login" replace />;
   }
 
-  // Trường hợp 2: Đã đăng nhập nhưng mã loại người dùng KHÔNG phải là Giáo Vụ ('GV')
-  // (Nếu API của bạn quy định quyền Admin là 'QuanTri' thì sửa lại chữ 'GV' nhé)
+  // Trường hợp 2: Đã đăng nhập nhưng mã loại người dùng không phải là Giáo Vụ ('GV')
   if (userLogin.maLoaiNguoiDung !== 'GV') {
     alert("Cảnh báo: Tài khoản của bạn không có quyền truy cập hệ thống Quản trị!");
     return <Navigate to="/" replace />; // Đá về trang chủ của Client

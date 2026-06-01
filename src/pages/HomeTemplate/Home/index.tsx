@@ -1,7 +1,7 @@
 // src/Pages/HomeTemplate/Home/index.tsx
 import React from "react";
 import Hero from "./Hero";
-import CourseList from "../_Components/CourseList";
+import CourseList from "../_Components/courses/CourseList";
 
 const Home: React.FC = () => {
   return (

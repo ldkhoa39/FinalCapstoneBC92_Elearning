@@ -16,7 +16,7 @@ const SkeletonLoading = () => {
         <div className="h-3 bg-slate-700/30 rounded w-full"></div>
       </div>
 
-      {/* Footer giả (Giá tiền + Nút) */}
+      {/* Footer giả */}
       <div className="mt-8 flex justify-between items-center">
         <div className="h-6 bg-slate-700/50 rounded w-20"></div>
         <div className="h-10 bg-slate-700/50 rounded-lg w-28"></div>

@@ -6,16 +6,16 @@ import { useSelector } from "react-redux";
 const AdminProfile: React.FC = () => {
   const navigate = useNavigate();
 
-  // 1. Lấy thông tin từ Redux Store (Khớp chuẩn 100% với biến userLogin của bạn)
+  // Lấy thông tin từ Redux Store
   const { userLogin } = useSelector((state: any) => state.auth || {});
 
-  // 2. Dự phòng: Nếu F5 trang, lấy tạm từ LocalStorage key "userLogin"
+  // Dự phòng: Nếu F5 trang, lấy tạm từ LocalStorage key "userLogin"
   const localUser = JSON.parse(localStorage.getItem("userLogin") || "null");
 
   // Ưu tiên data Redux, nếu trống thì dùng LocalStorage
   const currentUser = userLogin || localUser;
 
-  // 3. Chốt chặn: Nếu chưa đăng nhập -> Đá về trang Login
+  // Nếu chưa đăng nhập -> Đá về trang Login
   if (!currentUser) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white px-4">
@@ -36,7 +36,7 @@ const AdminProfile: React.FC = () => {
     );
   }
 
-  // Hàm hỗ trợ tách chữ cái cuối của tên làm Avatar
+  // Hàm tách chữ cái cuối của tên làm Avatar
   const getInitial = (name?: string) => {
     if (!name) return "A";
     const nameParts = name.trim().split(" ");

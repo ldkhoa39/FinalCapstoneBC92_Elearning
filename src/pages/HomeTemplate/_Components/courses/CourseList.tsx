@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { courseService } from "../../../services/courseService";
-import type { Course } from "../../../type";
+import { courseService } from "../../../../services/courseService";
+import type { Course } from "../../../../type";
 import CourseCard from "./CourseCard"; 
-import SkeletonLoading from "./SkelentonLoading"; 
+import SkeletonLoading from "../common/SkelentonLoading"; 
 
 const CourseList: React.FC = () => {
   const [courseData, setCourseData] = useState<Course[]>([]);
@@ -21,14 +21,13 @@ const CourseList: React.FC = () => {
         setCourseData(res.data.items);
         setTotalPages(res.data.totalPages);
         
-        // Cuộn nhẹ lên đầu danh sách để người dùng dễ theo dõi trang mới
         window.scrollTo({ top: 500, behavior: 'smooth' });
       })
       .catch((err) => {
         console.error("Lỗi lấy danh sách khóa học:", err);
       })
       .finally(() => {
-        // Delay nhẹ 300ms cho hiệu ứng skeleton
+        // Delay 300ms cho hiệu ứng skeleton
         setTimeout(() => setIsLoading(false), 300);
       });
   }, [currentPage]);
@@ -39,10 +38,9 @@ const CourseList: React.FC = () => {
         Danh sách khóa học
       </h2>
 
-      {/* Hiển thị danh sách: Nếu isLoading thì hiện Skeleton, ngược lại hiện Card thật */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {isLoading
-          ? // Tạo mảng giả 8 phần tử để hiển thị skeleton
+          ? 
             [...Array(pageSize)].map((_, index) => (
               <SkeletonLoading key={index} />
             ))

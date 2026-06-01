@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import AdminNavbar from './_components/AdminNavbar';
-import Sidebar from './_components/Sidebar'; 
-import AdminBreadcrumb from './_components/AdminBreadcrumb';
+import AdminNavbar from './_components/AdminLayout/AdminNavbar';
+import Sidebar from './_components/AdminLayout/Sidebar'; 
+import AdminBreadcrumb from './_components/AdminLayout/AdminBreadcrumb';
+import Dashboard from './Dashboard';
 
 const AdminTemplate: React.FC = () => {
   // State quản lý việc đóng/mở Sidebar
@@ -36,6 +37,7 @@ const AdminTemplate: React.FC = () => {
           <div className="max-w-screen-2xl mx-auto w-full">
             
             <AdminBreadcrumb />
+            
 
             <div className="mt-4 md:mt-6">
               <Outlet />

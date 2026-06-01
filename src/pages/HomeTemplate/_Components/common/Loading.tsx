@@ -1,8 +1,7 @@
-// src/Pages/HomeTemplate/_Components/Loading.tsx
 import React from "react";
 
 interface Props {
-  fullScreen?: boolean; // Nếu true sẽ xoay giữa màn hình, false sẽ xoay tại chỗ
+  fullScreen?: boolean;
 }
 
 const Loading: React.FC<Props> = ({ fullScreen = false }) => {
@@ -17,7 +16,7 @@ const Loading: React.FC<Props> = ({ fullScreen = false }) => {
         {/* Vòng ngoài phát sáng */}
         <div className="w-12 h-12 rounded-full border-4 border-[#22D3EE]/20 border-t-[#22D3EE] animate-spin shadow-[0_0_15px_rgba(34,211,238,0.5)]"></div>
         
-        {/* Vòng trong xoay ngược lại (tạo cảm giác công nghệ) */}
+        {/* Vòng trong xoay ngược lại*/}
         <div className="absolute inset-0 w-12 h-12 rounded-full border-4 border-transparent border-b-[#2563EB] animate-spin-reverse opacity-70"></div>
       </div>
 

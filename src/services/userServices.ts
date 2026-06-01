@@ -9,9 +9,8 @@ import type {
 } from "../type";
 
 export const userService = {
-  // =========================
+
   // 1. LOGIN
-  // =========================
   login: (data: LoginPayload) => {
     return api.post<UserLogin>(
       "QuanLyNguoiDung/DangNhap",
@@ -19,9 +18,7 @@ export const userService = {
     );
   },
 
-  // =========================
   // 2. REGISTER
-  // =========================
   register: (data: RegisterPayload) => {
     return api.post(
       "QuanLyNguoiDung/DangKy",
@@ -29,18 +26,14 @@ export const userService = {
     );
   },
 
-  // =========================
   // 3. GET PROFILE (Client)
-  // =========================
   getProfile: () => {
     return api.post<UserProfile>(
       "QuanLyNguoiDung/ThongTinTaiKhoan"
     );
   },
 
-  // =========================
   // 4. UPDATE PROFILE (Client)
-  // =========================
   updateProfile: (data: UserProfile) => {
     return api.put(
       "QuanLyNguoiDung/CapNhatThongTinNguoiDung",

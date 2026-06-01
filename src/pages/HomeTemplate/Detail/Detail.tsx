@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { courseService } from "../../../services/courseService";
 import type { Course } from "../../../type";
-import Loading from "../_Components/Loading";
+import Loading from "../_Components/common/Loading";
 
 const Detail: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Lấy id từ URL
@@ -40,10 +40,9 @@ const Detail: React.FC = () => {
     return (
         <section className="flex-grow pt-28 pb-24 bg-[#020617]">
             <div className="w-[70%] mx-auto">
-                {/* I. HEADER - PHẦN TRÊN CÙNG */}
+                {/* HEADER*/}
                 <div className="mb-14">
                 <span className="inline-block px-4 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase border border-cyan-500/20 mb-6">
-                    {/* Sửa lại logic tên danh mục cho đúng chuẩn API */}
                     {course.danhMucKhoaHoc?.tenDanhMuc ||
                     course.danhMucKhoaHoc?.tenDanhMuc ||
                     "Khóa học"}
@@ -59,25 +58,20 @@ const Detail: React.FC = () => {
                 </p>
                 </div>
 
-                {/* IMAGE - Fix lỗi mất nội dung và thu nhỏ gọn lại */}
+                {/* IMAGE*/}
                 <div className="relative mb-14 group flex justify-center">
                     
-                    {/* Glow Background nhẹ nhàng */}
+                    {/* Glow Background*/}
                     <div className="absolute inset-0 bg-cyan-500/5 blur-[100px] rounded-full opacity-30"></div>
 
                     <div className="relative w-full max-w-4xl">
                         
-                        {/* Gradient Border bao quanh sát mép ảnh */}
+                        {/* Gradient Border*/}
                         <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600/30 to-cyan-500/30 rounded-[1.5rem] blur-sm opacity-50"></div>
 
                         <img
                             src={course.hinhAnh}
                             alt={course.tenKhoaHoc}
-                            /* 
-                            CHỐT HẠ: 
-                            - object-contain: Giúp hiện toàn bộ ảnh, không bị cắt (crop).
-                            - max-h-[500px]: Giới hạn chiều cao để ảnh không chiếm quá nhiều diện tích.
-                            */
                             className="relative w-full max-h-[500px] rounded-[1.5rem] object-contain bg-[#0f172a]/50 shadow-2xl border border-white/5 transition-transform duration-500 group-hover:scale-[1.01]"
                             onError={(e) => {
                                 e.currentTarget.src = "https://via.placeholder.com/1000x600?text=Course+Image";
@@ -86,15 +80,14 @@ const Detail: React.FC = () => {
                     </div>
                 </div>
 
-                {/* III. DESCRIPTION + ACTION - PHẦN DƯỚI CÙNG */}
+                {/*DESCRIPTION + ACTION*/}
                 <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
-                {/* Description: Sửa logic render HTML */}
+                {/* Description*/}
                 <div className="max-w-3xl">
                     <h2 className="text-2xl font-bold text-white mb-4">
                     Giới thiệu khóa học
                     </h2>
 
-                    {/* Dùng dangerouslySetInnerHTML để render nội dung có thẻ <p> từ API */}
                     <div
                     className="text-slate-400 leading-8 text-lg prose prose-invert max-w-none"
                     dangerouslySetInnerHTML={{

@@ -1,6 +1,6 @@
 // src/pages/AdminTemplate/_components/AddCourseModal.tsx
 import React, { useState, useEffect } from 'react';
-import { courseService } from '../../../services/courseService';
+import { courseService } from '../../../../services/courseService';
 
 interface AddCourseProps {
   isOpen: boolean;
@@ -80,8 +80,6 @@ const AddCourse: React.FC<AddCourseProps> = ({ isOpen, onClose, onSuccess }) => 
         throw new Error('Vui lòng chọn hình ảnh minh họa cho khóa học!');
       }
 
-      // Gọi API từ courseService (thường là endpoint ThemKhoaHocUploadHinhAnh)
-      // Lưu ý: Tùy thuộc vào tên hàm trong file courseService của bạn, bạn hãy chỉnh lại tên hàm cho đúng (ví dụ: addCourse hoặc themKhoaHoc)
       await courseService.addCourseUploadImage(formData);
 
       alert('Thêm khóa học thành công!');

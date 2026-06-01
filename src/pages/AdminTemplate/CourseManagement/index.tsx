@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { courseService } from "../../../services/courseService";
 
-import DeleteCourseModal from "../_components/DeleteCourse";
-import AddCourse from "../_components/AddCourseModal";
-import EditCourseModal from "../_components/EditCourseModal";
+import DeleteCourseModal from "../_components/CourseManagements/DeleteCourse";
+import AddCourse from "../_components/CourseManagements/AddCourseModal";
+import EditCourseModal from "../_components/CourseManagements/EditCourseModal";
 
 const CourseManagement: React.FC = () => {
   const [courses, setCourses] = useState<any[]>([]);

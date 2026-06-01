@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { useDetail } from "./useDetail";
-import Loading from "../_Components/Loading";
+import Loading from "../_Components/common/Loading";
 
 const fadeUp: Variants = {
   hidden: {

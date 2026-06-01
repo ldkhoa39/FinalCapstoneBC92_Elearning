@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { courseService } from "../../../services/courseService";
+import { courseService } from "../../../../services/courseService";
 
 interface EditCourseModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
-  course: any; // Trùng khớp với prop course={selectedCourse} bạn đang truyền
+  course: any;
 }
 
 const EditCourseModal: React.FC<EditCourseModalProps> = ({
@@ -78,7 +78,6 @@ const EditCourseModal: React.FC<EditCourseModalProps> = ({
       submitData.append("maNhom", formData.maNhom);
       submitData.append("taiKhoanNguoiTao", formData.taiKhoanNguoiTao);
 
-      // 🔥 TUYỆT CHIÊU XỬ LÝ HÌNH ẢNH:
       if (file) {
         // Trường hợp 1: User chủ động chọn file ảnh mới
         submitData.append("hinhAnh", file, file.name);
@@ -104,7 +103,6 @@ const EditCourseModal: React.FC<EditCourseModalProps> = ({
         }
       }
 
-      // Gọi API cập nhật của bạn
       await courseService.updateCourseUploadImage(submitData);
 
       alert("Cập nhật khóa học thành công!");

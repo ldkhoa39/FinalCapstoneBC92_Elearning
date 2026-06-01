@@ -2,12 +2,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { courseService } from "../../../services/courseService";
-import CourseCard from "../_Components/CourseCard"; 
-import Loading from "../_Components/Loading";
+import CourseCard from "../_Components/courses/CourseCard";
+import Loading from "../_Components/common/Loading";
 import type { Course } from "../../../type";
 
 const CourseCatalog: React.FC = () => {
-  // Bắt tham số maDanhMuc từ URL (ví dụ: /course-category/BackEnd -> lấy được chữ "BackEnd")
+  // Bắt tham số maDanhMuc từ URL
   const { maDanhMuc } = useParams<{ maDanhMuc: string }>(); 
   
   const [courses, setCourses] = useState<Course[]>([]);
@@ -20,7 +20,7 @@ const CourseCatalog: React.FC = () => {
     try {
       setIsLoading(true);
       setError(null);
-      // Gọi API lấy khóa học theo danh mục (Bạn nhớ check lại tên hàm trong courseService.ts nhé)
+      // Gọi API lấy khóa học theo danh mục
       const res = await courseService.getCourseByCategory(maDanhMuc);
       setCourses(res.data);
     } catch (err) {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../../../store";
-import { logout } from "../../../store/slices/authSlice";
-import { courseService } from "../../../services/courseService";
-import type { CourseCategory } from "../../../type";
+import type { RootState } from "../../../../store";
+import { logout } from "../../../../store/slices/authSlice";
+import { courseService } from "../../../../services/courseService";
+import type { CourseCategory } from "../../../../type";
 
 const Header: React.FC = () => {
   const [categories, setCategories] = useState<CourseCategory[]>([]);
@@ -48,7 +48,7 @@ const Header: React.FC = () => {
     <nav className="bg-[#020617]/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 shadow-2xl">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         
-        {/* Logo mới: Mũ Bachelor + Elearning-BC92 */}
+        {/* Logo*/}
         <Link to="/" className="flex items-center space-x-3 group">
           <div className="w-11 h-11 bg-gradient-to-br from-primary-blue to-accent-cyan rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-transform group-hover:rotate-6">
             <i className="fa fa-graduation-cap text-[#020617] text-2xl"></i>
@@ -121,7 +121,6 @@ const Header: React.FC = () => {
               </NavLink>
             </li>
 
-            {/* CỤM ĐIỀU KHIỂN GÓC PHẢI (CHỨA NÚT ADMIN PHƠI RA NGOÀI) */}
             <div className="flex flex-col md:flex-row items-center gap-5 mt-4 md:mt-0 border-t md:border-t-0 border-slate-800/50 pt-4 md:pt-0 w-full md:w-auto justify-center">
               
               {/* Nút ADMIN */}
@@ -134,7 +133,7 @@ const Header: React.FC = () => {
               </Link>
 
               {userLogin ? (
-                /* ĐÃ ĐĂNG NHẬP (HIỂN THỊ DROPDOWN AVATAR NHƯ CŨ) */
+                /* ĐÃ ĐĂNG NHẬP*/
                 <li className="relative group list-none">
                   <button className="flex items-center space-x-3 text-slate-200 hover:text-accent-cyan transition-colors focus:outline-none">
                     <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black shadow-[0_0_15px_rgba(6,182,212,0.3)]">
@@ -172,7 +171,7 @@ const Header: React.FC = () => {
                   </div>
                 </li>
               ) : (
-                /* CHƯA ĐĂNG NHẬP (HIỂN THỊ CỤM LOGIN/REGISTER) */
+                /* CHƯA ĐĂNG NHẬP*/
                 <div className="flex items-center gap-5">
                   <Link
                     to="/login"

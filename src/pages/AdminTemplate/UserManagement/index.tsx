@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { userService } from "../../../services/userServices";
 import type { User } from "../../../type";
-import AddUserModal from "../_components/AddUserModal";
-import SearchInput from "../_components/UserSearch";
-import DeleteUserBtn from "../_components/UserDelete";
-import EditUserModal from "../_components/UserEdit";
+import AddUserModal from "../_components/UserManagements/AddUserModal";
+import SearchInput from "../_components/UserManagements/UserSearch";
+import DeleteUserBtn from "../_components/UserManagements/UserDelete";
+import EditUserModal from "../_components/UserManagements/UserEdit";
 
 const PAGE_SIZE = 10;
 

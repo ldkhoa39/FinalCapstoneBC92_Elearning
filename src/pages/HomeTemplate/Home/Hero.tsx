@@ -20,7 +20,7 @@ const itemVariants: Variants = {
 };
 
 const Hero: React.FC = () => {
-  // Hàm xử lý cuộn trang mượt mà
+
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {

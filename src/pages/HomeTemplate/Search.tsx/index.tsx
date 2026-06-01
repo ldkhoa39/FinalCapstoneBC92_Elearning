@@ -21,7 +21,6 @@ const Search: React.FC = () => {
       try {
         setLoading(true);
         
-        // 🐛 Sửa dòng lỗi ở đây: Đổi từ layDanhSachKhoaHoc sang searchCourse
         const res = await courseService.searchCourse(keyword); 
         
         const strictResults = res.data.filter((course: Course) =>

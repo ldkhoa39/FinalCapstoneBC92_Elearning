@@ -1,39 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import type { Course } from "../../../type";
+import type { Course } from "../../../../type";
 
 interface Props {
   course: Course;
 }
 
 const CourseCard: React.FC<Props> = ({ course }) => {
-  // Hàm làm sạch thẻ HTML và ký tự đặc biệt
-  const cleanText = (str: string) => {
-    return str ? str.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : "";
-  };
+  const FALLBACK_IMAGE =
+    "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=400&auto=format&fit=crop";
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.target as HTMLImageElement;
-    const fallback = "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=400&auto=format&fit=crop";
-    
-    if (target.src !== fallback) {
-      target.src = fallback;
+  const cleanText = (text?: string) =>
+    text
+      ?.replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim() || "Chưa có mô tả";
+
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
+    const img = e.currentTarget;
+
+    if (img.src !== FALLBACK_IMAGE) {
+      img.src = FALLBACK_IMAGE;
     } else {
-      target.onerror = null;
+      img.onerror = null;
     }
   };
 
   return (
     <div className="group relative bg-[#0F172A] border border-slate-800 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-accent-cyan/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] flex flex-col">
       <div className="relative h-48 overflow-hidden bg-slate-900">
-        <img 
-          src={course.hinhAnh} 
+        <img
+          src={course.hinhAnh}
+          alt={course.tenKhoaHoc}
           className="w-full h-48 object-cover"
-          // Fallback khi API trả về link ảnh chết
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=No+Image";
-          }}
-          alt={course.tenKhoaHoc} 
+          onError={handleImageError}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent opacity-60"></div>
         <div className="absolute top-3 right-3 bg-primary-blue/80 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">
