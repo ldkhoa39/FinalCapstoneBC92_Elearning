@@ -1,32 +1,28 @@
 // src/routes/index.tsx
 import { useRoutes } from "react-router-dom";
 
-// Templates & Chốt chặn Bảo mật
 import HomeTemplate from "../pages/HomeTemplate";
 import AuthTemplate from "../pages/AuthTemplate";
-import AdminTemplate from "../pages/AdminTemplate"; 
-import AdminGuard from "../components/AdminGuard"; 
+import AdminTemplate from "../pages/AdminTemplate";
 
-// Pages Client
+import AdminGuard from "../components/AdminGuard";
+
 import Home from "../pages/HomeTemplate/Home";
 import Detail from "../pages/HomeTemplate/Detail";
-import Login from "../pages/AuthTemplate/Auth/Login";
-import Register from "../pages/AuthTemplate/Auth/Register";
 import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
 import Search from "../pages/HomeTemplate/_Components/Search";
 import Profile from "../pages/HomeTemplate/Profile";
 
-// Pages Admin
-import AdminLogin from "../pages/AdminLogin"; 
-import CourseManagement from "../pages/AdminTemplate/CourseManagement";
-import Dashboard from "../pages/AdminTemplate/Dashboard";
+import Login from "../pages/AuthTemplate/Auth/Login";
+import Register from "../pages/AuthTemplate/Auth/Register";
+
+import AdminLogin from "../pages/AdminLogin";
 import UserManagement from "../pages/AdminTemplate/UserManagement";
+import CourseManagement from "../pages/AdminTemplate/CourseManagement";
+import AdminProfile from "../pages/AdminTemplate/_components/AdminProfile";
 
 const Router = () => {
-  const routes = useRoutes([
-    // ========================================================
-    // CLIENT ROUTES (Có Header & Footer của HomeTemplate)
-    // ========================================================
+  return useRoutes([
     {
       path: "/",
       element: <HomeTemplate />,
@@ -39,11 +35,8 @@ const Router = () => {
       ],
     },
 
-    // ========================================================
-    // CLIENT AUTH ROUTES (Layout riêng cho Học viên đăng nhập/đăng ký)
-    // ========================================================
     {
-      path: "/", 
+      path: "/",
       element: <AuthTemplate />,
       children: [
         { path: "login", element: <Login /> },
@@ -51,56 +44,34 @@ const Router = () => {
       ],
     },
 
-    // ========================================================
-    // ADMIN AUTH ROUTE (Hoàn toàn độc lập, giao diện Blank Layout)
-    // ========================================================
     {
       path: "/admin/login",
-      element: <AdminLogin />, // Đứng một mình, không bị vướng Sidebar hay Navbar bọc ngoài
+      element: <AdminLogin />,
     },
 
-    // ========================================================
-    // PROTECTED ADMIN ROUTES (Đã được bảo vệ nghiêm ngặt)
-    // ========================================================
     {
       path: "/admin",
       element: (
         <AdminGuard>
           <AdminTemplate />
         </AdminGuard>
-      ), // Chỉ khi AdminGuard mở cửa, AdminTemplate mới bắt đầu render layout
+      ),
       children: [
-        // Trang chính mặc định khi vào /admin
-        // { index: true, element: <Dashboard /> },
-        
-        // Trang quản lý người dùng: /admin/user-management
-        {
-          path: "user-management",
-          element: <UserManagement />,
-        },
-        
-        // Trang quản lý khóa học: /admin/course-management
-        {
-          path: "course-management",
-          element: <CourseManagement />,
-        },
+        { path: "user-management", element: <UserManagement /> },
+        { path: "course-management", element: <CourseManagement /> },
+        { path: "profile", element: <AdminProfile /> },
       ],
     },
 
-    // =========================
-    // 404 PAGE
-    // =========================
     {
       path: "*",
       element: (
-        <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white text-3xl font-bold">
+        <div className="flex min-h-screen items-center justify-center bg-slate-950 text-3xl font-bold text-white">
           404 - Trang không tồn tại
         </div>
       ),
     },
   ]);
-
-  return routes;
 };
 
 export default Router;

@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import AdminNavbar from './_components/AdminNavbar';
 import Sidebar from './_components/Sidebar'; 
 import AdminBreadcrumb from './_components/AdminBreadcrumb';
-// XÓA import Dashboard ở đây, Dashboard sẽ được gọi thông qua <Outlet />
 
 const AdminTemplate: React.FC = () => {
   // State quản lý việc đóng/mở Sidebar

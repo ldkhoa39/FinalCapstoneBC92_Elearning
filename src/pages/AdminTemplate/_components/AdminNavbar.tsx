@@ -1,28 +1,39 @@
 // src/pages/AdminTemplate/_components/AdminNavbar.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// Ghi chú: Nếu có dùng Redux Toolkit để quản lý auth, bạn import useDispatch và action ở đây nhé
+import { useSelector } from "react-redux";
+// Ghi chú: Nếu có dùng Redux action để đăng xuất, bạn import useDispatch và action ở đây nhé
 
 interface NavbarProps {
   toggleSidebar: () => void;
 }
 
 const AdminNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
-  // Trạng thái đóng/mở menu profile
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
+  // LẤY DỮ LIỆU TỪ REDUX ĐỂ HIỂN THỊ TÊN & AVATAR TRÊN NAVBAR
+  // Nhớ đổi 'state.user' thành đúng tên reducer của bạn
+  const { userInfo } = useSelector((state: any) => state.auth || {});
+
+  // Hàm lấy chữ cái đầu của tên để làm Avatar
+  const getInitial = (name?: string) => {
+    if (!name) return "A";
+    const nameParts = name.trim().split(" ");
+    return nameParts[nameParts.length - 1].charAt(0).toUpperCase();
+  };
+
   // Hàm xử lý đăng xuất
   const handleLogout = () => {
-    // 1. Xóa data trong localStorage (thay tên key bằng key bạn đang dùng)
-    localStorage.removeItem("USER_LOGIN"); 
-    localStorage.removeItem("TOKEN"); 
-    
+    // 1. Xóa data trong localStorage
+    localStorage.removeItem("USER_LOGIN");
+    localStorage.removeItem("TOKEN");
+
     // 2. Dispatch Redux action để clear state (nếu có sử dụng)
     // dispatch(logoutAction());
 
     // 3. Chuyển hướng về trang đăng nhập hoặc trang chủ
-    navigate("/"); 
+    navigate("/");
   };
 
   return (
@@ -78,43 +89,51 @@ const AdminNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 
         {/* Profile (Có thêm Dropdown) */}
         <div className="relative">
-          <div 
+          <div
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center gap-3 cursor-pointer group p-1 pr-2 rounded-xl hover:bg-slate-800/50 transition-all"
           >
+            {/* AVATAR ĐỘNG */}
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/20">
-              A
+              {userInfo ? getInitial(userInfo.hoTen || userInfo.name) : "A"}
             </div>
 
+            {/* TÊN ĐỘNG */}
             <div className="hidden sm:block">
-              <p className="text-sm font-bold text-slate-200 leading-none mb-1 group-hover:text-cyan-400 transition-colors">
-                Admin
+              <p className="text-sm font-bold text-slate-200 leading-none mb-1 group-hover:text-cyan-400 transition-colors max-w-[120px] truncate">
+                {userInfo?.hoTen || userInfo?.name || "Admin"}
               </p>
-              <p className="text-[10px] text-slate-500 leading-none">
-                Quản trị viên
+              <p className="text-[10px] text-slate-500 leading-none uppercase">
+                {userInfo?.maLoaiNguoiDung || userInfo?.loaiNguoiDung || "Quản trị viên"}
               </p>
             </div>
 
-            <i className={`fa fa-chevron-down text-[10px] text-slate-500 hidden sm:block transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            <i
+              className={`fa fa-chevron-down text-[10px] text-slate-500 hidden sm:block transition-transform duration-300 ${
+                isDropdownOpen ? "rotate-180" : ""
+              }`}
+            />
           </div>
 
           {/* Dropdown Menu */}
           {isDropdownOpen && (
             <div className="absolute right-0 mt-3 w-48 bg-slate-900 border border-slate-700/50 rounded-xl shadow-xl shadow-black/50 py-2 animate-in fade-in slide-in-from-top-2">
-              <button 
+              <button
                 className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-800 hover:text-white flex items-center gap-3 transition-colors"
                 onClick={() => {
                   setIsDropdownOpen(false);
-                  // Chèn thêm hàm chuyển hướng tới Profile Admin nếu cần
+                  // CHUYỂN HƯỚNG TỚI TRANG PROFILE
+                  // Bạn hãy đổi "/admin/profile" thành Route thật trong project của bạn
+                  navigate("/admin/profile"); 
                 }}
               >
                 <i className="fa fa-user text-slate-400" />
                 Hồ sơ của tôi
               </button>
-              
+
               <div className="h-px bg-slate-800 my-1"></div>
 
-              <button 
+              <button
                 onClick={handleLogout}
                 className="w-full px-4 py-2 text-left text-sm text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 flex items-center gap-3 transition-colors"
               >
@@ -124,7 +143,6 @@ const AdminNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
             </div>
           )}
         </div>
-
       </div>
     </header>
   );
