@@ -34,7 +34,7 @@ const CourseManagement: React.FC = () => {
   const filteredCourses = courses.filter((c) =>
     `${c.tenKhoaHoc} ${c.maKhoaHoc}`
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+      .includes(searchTerm.toLowerCase()),
   );
 
   const openDelete = (course: any) => {
@@ -48,16 +48,25 @@ const CourseManagement: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 shadow-xl min-h-[70vh]">
-
+    <div
+      className="
+      bg-white dark:bg-slate-900
+      border border-slate-200 dark:border-slate-800
+      rounded-2xl
+      p-4 md:p-6
+      shadow-xl
+      min-h-[70vh]
+      transition-colors duration-300
+    "
+    >
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
-
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-white">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
             Quản lý khóa học
           </h2>
-          <p className="text-slate-400 text-sm">
+
+          <p className="text-slate-600 dark:text-slate-400 text-sm">
             CRUD khóa học hệ thống
           </p>
         </div>
@@ -67,77 +76,171 @@ const CourseManagement: React.FC = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Tìm khóa học..."
-            className="bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-white w-full md:w-64 text-sm"
+            className="
+            w-full md:w-64
+            px-3 py-2
+            rounded-lg
+            border
+
+            bg-white
+            dark:bg-slate-950
+
+            border-slate-300
+            dark:border-slate-800
+
+            text-slate-900
+            dark:text-white
+
+            placeholder:text-slate-400
+            dark:placeholder:text-slate-500
+
+            focus:outline-none
+            focus:ring-2
+            focus:ring-cyan-500/40
+          "
           />
 
           <button
             onClick={() => setIsAddOpen(true)}
-            className="px-3 md:px-4 py-2 bg-cyan-500 text-black font-bold rounded-lg text-sm whitespace-nowrap"
+            className="
+            px-4 py-2
+            bg-cyan-500
+            text-black
+            font-bold
+            rounded-lg
+            text-sm
+            whitespace-nowrap
+            hover:bg-cyan-400
+            transition-colors
+          "
           >
             + Thêm
           </button>
         </div>
       </div>
 
-      {/* ================= DESKTOP TABLE ================= */}
-      <div className="hidden md:block overflow-x-auto border border-slate-800 rounded-xl">
-        <table className="w-full text-sm text-slate-300">
-          <thead className="bg-slate-950 text-xs uppercase">
+      {/* DESKTOP TABLE */}
+      <div
+        className="
+        hidden md:block
+        overflow-x-auto
+        rounded-xl
+        border
+        border-slate-200
+        dark:border-slate-800
+      "
+      >
+        <table className="w-full text-sm">
+          <thead
+            className="
+            bg-slate-100
+            dark:bg-slate-950
+
+            text-slate-700
+            dark:text-slate-300
+
+            text-xs
+            uppercase
+            border-b
+            border-slate-200
+            dark:border-slate-800
+          "
+          >
             <tr>
-              <th className="p-3">STT</th>
+              <th className="p-3 text-center">STT</th>
               <th>Ảnh</th>
               <th>Tên</th>
               <th>Người tạo</th>
-              <th>Views</th>
-              <th>Action</th>
+              <th className="text-center">Views</th>
+              <th className="text-center">Action</th>
             </tr>
           </thead>
 
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan={6} className="text-center p-10">
+                <td
+                  colSpan={6}
+                  className="text-center p-10 text-slate-500 dark:text-slate-400"
+                >
                   Loading...
                 </td>
               </tr>
             ) : filteredCourses.length === 0 ? (
               <tr>
-                <td colSpan={6} className="text-center p-10">
+                <td
+                  colSpan={6}
+                  className="text-center p-10 text-slate-500 dark:text-slate-400"
+                >
                   Không có dữ liệu
                 </td>
               </tr>
             ) : (
               filteredCourses.map((course, index) => (
-                <tr key={course.maKhoaHoc} className="border-t border-slate-800">
-                  <td className="text-center p-3">{index + 1}</td>
+                <tr
+                  key={course.maKhoaHoc}
+                  className="
+                  border-t
+                  border-slate-200
+                  dark:border-slate-800
+
+                  hover:bg-slate-50
+                  dark:hover:bg-slate-800/30
+
+                  transition-colors
+                "
+                >
+                  <td className="text-center p-3 text-slate-700 dark:text-slate-300">
+                    {index + 1}
+                  </td>
 
                   <td>
                     <img
                       src={course.hinhAnh}
-                      className="w-10 h-10 rounded object-cover"
+                      className="w-10 h-10 rounded-lg object-cover"
                     />
                   </td>
 
-                  <td className="max-w-[200px] truncate">
+                  <td className="max-w-[220px] truncate font-medium text-slate-900 dark:text-white">
                     {course.tenKhoaHoc}
                   </td>
 
-                  <td>{course.nguoiTao?.taiKhoan || "N/A"}</td>
+                  <td className="text-slate-600 dark:text-slate-400">
+                    {course.nguoiTao?.taiKhoan || "N/A"}
+                  </td>
 
-                  <td className="text-center">{course.luotXem}</td>
+                  <td className="text-center text-slate-600 dark:text-slate-400">
+                    {course.luotXem}
+                  </td>
 
                   <td>
                     <div className="flex gap-2 justify-center">
                       <button
                         onClick={() => openEdit(course)}
-                        className="px-2 py-1 bg-blue-500 text-white rounded text-xs"
+                        className="
+                        px-3 py-1
+                        rounded-md
+                        text-xs
+                        bg-blue-500
+                        text-white
+                        hover:bg-blue-600
+                        transition-colors
+                      "
                       >
                         Edit
                       </button>
 
                       <button
                         onClick={() => openDelete(course)}
-                        className="px-2 py-1 bg-red-500 text-white rounded text-xs"
+                        className="
+                        px-3 py-1
+                        rounded-md
+                        text-xs
+                        bg-red-500
+                        text-white
+                        hover:bg-red-600
+                        transition-colors
+                      "
                       >
                         Delete
                       </button>
@@ -150,25 +253,35 @@ const CourseManagement: React.FC = () => {
         </table>
       </div>
 
-      {/* ================= MOBILE CARD ================= */}
+      {/* MOBILE */}
       <div className="md:hidden space-y-3">
         {filteredCourses.map((course) => (
           <div
             key={course.maKhoaHoc}
-            className="bg-slate-950 border border-slate-800 rounded-xl p-4"
+            className="
+            bg-slate-50
+            dark:bg-slate-950
+
+            border
+            border-slate-200
+            dark:border-slate-800
+
+            rounded-xl
+            p-4
+          "
           >
             <div className="flex gap-3">
               <img
                 src={course.hinhAnh}
-                className="w-14 h-14 rounded object-cover"
+                className="w-14 h-14 rounded-lg object-cover"
               />
 
               <div className="flex-1">
-                <h3 className="text-white font-semibold text-sm line-clamp-2">
+                <h3 className="text-slate-900 dark:text-white font-semibold text-sm line-clamp-2">
                   {course.tenKhoaHoc}
                 </h3>
 
-                <p className="text-slate-400 text-xs mt-1">
+                <p className="text-slate-600 dark:text-slate-400 text-xs mt-1">
                   {course.nguoiTao?.taiKhoan || "N/A"}
                 </p>
 
@@ -178,18 +291,29 @@ const CourseManagement: React.FC = () => {
               </div>
             </div>
 
-            {/* ACTION */}
             <div className="flex gap-2 mt-3">
               <button
                 onClick={() => openEdit(course)}
-                className="flex-1 py-2 bg-blue-500 text-white rounded text-sm"
+                className="
+                flex-1 py-2
+                bg-blue-500
+                text-white
+                rounded-lg
+                text-sm
+              "
               >
                 Edit
               </button>
 
               <button
                 onClick={() => openDelete(course)}
-                className="flex-1 py-2 bg-red-500 text-white rounded text-sm"
+                className="
+                flex-1 py-2
+                bg-red-500
+                text-white
+                rounded-lg
+                text-sm
+              "
               >
                 Delete
               </button>

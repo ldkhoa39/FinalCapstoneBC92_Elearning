@@ -20,8 +20,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       <aside
         className={`
           fixed md:static top-0 left-0 z-40
-          h-full bg-slate-900 text-white
-          border-r border-slate-800/80
+          h-full
+          bg-white
+          dark:bg-slate-900
+
+          text-slate-900
+          dark:text-white
+
+          border-r
+          border-slate-200
+          dark:border-slate-800/80
           transition-all duration-300
           flex flex-col overflow-hidden
 
@@ -29,7 +37,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         `}
       >
         {/* LOGO */}
-        <div className="h-20 flex items-center justify-center border-b border-slate-800/80">
+        <div className="h-20 flex items-center justify-center border-b
+          border-slate-200
+          dark:border-slate-800/80"
+        >
           <span className="font-bold text-cyan-400">
             {isOpen ? "E-LEARNING" : "E"}
           </span>

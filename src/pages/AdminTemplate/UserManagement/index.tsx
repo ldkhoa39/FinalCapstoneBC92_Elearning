@@ -72,6 +72,7 @@ const UserManagement: React.FC = () => {
   const handleSearch = useCallback((value: string) => {
     setKeyword(value);
     setCurrentPage(1);
+    
   }, []);
 
   const handleEdit = useCallback((user: User) => {
@@ -80,14 +81,33 @@ const UserManagement: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 lg:p-6 shadow-xl min-h-[70vh] animate-fade-in">
-      {/* HEADER - Đã đổi md thành lg */}
+    <div
+      className="
+      bg-white
+      dark:bg-slate-900
+
+      border
+      border-slate-200
+      dark:border-slate-800
+
+      rounded-2xl
+      p-4 lg:p-6
+
+      shadow-lg
+      dark:shadow-xl
+
+      min-h-[70vh]
+      animate-fade-in
+    "
+    >
+      {/* HEADER */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
         <div>
-          <h2 className="text-xl lg:text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl lg:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Quản lý Người Dùng
           </h2>
-          <p className="text-sm text-slate-400 mt-1">
+
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             Quản lý danh sách học viên và giáo viên trên hệ thống.
           </p>
         </div>
@@ -95,21 +115,68 @@ const UserManagement: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
           <SearchInput
             onSearch={handleSearch}
-            placeholder="Tìm tài khoản hoặc họ tên người dùng..."
+            placeholder="Tìm tài khoản hoặc họ tên..."
           />
+
           <button
             onClick={() => setIsAddOpen(true)}
-            className="w-full sm:w-auto px-4 py-2.5 bg-cyan-500 text-black text-sm font-bold rounded-lg shadow-lg hover:bg-cyan-400 transition-all whitespace-nowrap"
+            className="
+            w-full sm:w-auto
+            px-4 py-2.5
+
+            bg-cyan-500
+            hover:bg-cyan-400
+
+            text-black
+            text-sm
+            font-bold
+
+            rounded-lg
+
+            shadow-md
+            hover:shadow-lg
+
+            transition-all duration-200
+
+            whitespace-nowrap
+          "
           >
-            + Thêm Người Dùng
+            <i className="fa fa-plus mr-2"></i>
+            Thêm Người Dùng
           </button>
         </div>
       </div>
 
-      {/* DESKTOP TABLE*/}
-      <div className="hidden lg:block overflow-x-auto rounded-xl border border-slate-800">
-        <table className="w-full min-w-[1000px] whitespace-nowrap text-left text-sm text-slate-400">
-          <thead className="bg-slate-950 text-slate-300 uppercase font-semibold text-[10px] border-b border-slate-800">
+      {/* DESKTOP TABLE */}
+      <div
+        className="
+        hidden lg:block
+        overflow-x-auto
+        rounded-xl
+
+        border
+        border-slate-200
+        dark:border-slate-800
+      "
+      >
+        <table className="w-full min-w-[1000px] whitespace-nowrap text-left text-sm">
+          <thead
+            className="
+            bg-slate-100
+            dark:bg-slate-950
+
+            text-slate-600
+            dark:text-slate-300
+
+            uppercase
+            font-semibold
+            text-[10px]
+
+            border-b
+            border-slate-200
+            dark:border-slate-800
+          "
+          >
             <tr>
               <th className="px-4 py-4 w-12 text-center">STT</th>
               <th className="px-4 py-4">Tài Khoản</th>
@@ -121,13 +188,24 @@ const UserManagement: React.FC = () => {
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-slate-800/60">
+          <tbody
+            className="
+            divide-y
+            divide-slate-200
+            dark:divide-slate-800
+          "
+          >
             {isLoading ? (
               <tr>
                 <td colSpan={7} className="text-center py-10">
                   <div className="flex flex-col items-center gap-2">
-                    <span className="text-cyan-500 text-2xl animate-spin">⏳</span>
-                    <span className="text-slate-500 text-xs">Đang tải dữ liệu...</span>
+                    <span className="text-cyan-500 text-2xl animate-spin">
+                      ⏳
+                    </span>
+
+                    <span className="text-slate-500 text-xs">
+                      Đang tải dữ liệu...
+                    </span>
                   </div>
                 </td>
               </tr>
@@ -141,18 +219,37 @@ const UserManagement: React.FC = () => {
               </tr>
             ) : (
               paginatedUsers.map((user, index) => (
-                <tr key={user.taiKhoan} className="hover:bg-slate-800/30 transition-colors">
-                  <td className="px-4 py-4 text-center font-medium">
+                <tr
+                  key={user.taiKhoan}
+                  className="
+                  hover:bg-slate-100
+                  dark:hover:bg-slate-800/30
+                  transition-colors
+                "
+                >
+                  <td className="px-4 py-4 text-center text-slate-600 dark:text-slate-400">
                     {(currentPage - 1) * PAGE_SIZE + index + 1}
                   </td>
-                  <td className="px-4 py-4 font-bold text-slate-200">{user.taiKhoan}</td>
-                  <td className="px-4 py-4">{user.hoTen}</td>
-                  <td className="px-4 py-4 text-xs">{user.email}</td>
-                  {/* Đã fix số điện thoại */}
-                  <td className="px-4 py-4 text-xs">{user.soDT || (user as any).soDt}</td>
+
+                  <td className="px-4 py-4 font-bold text-slate-900 dark:text-slate-200">
+                    {user.taiKhoan}
+                  </td>
+
+                  <td className="px-4 py-4 text-slate-700 dark:text-slate-300">
+                    {user.hoTen}
+                  </td>
+
+                  <td className="px-4 py-4 text-slate-600 dark:text-slate-400 text-xs">
+                    {user.email}
+                  </td>
+
+                  <td className="px-4 py-4 text-slate-600 dark:text-slate-400 text-xs">
+                    {user.soDT || (user as any).soDt}
+                  </td>
+
                   <td className="px-4 py-4 text-center">
                     <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                      className={`px-2 py-1 rounded text-[10px] font-bold ${
                         user.maLoaiNguoiDung === "GV"
                           ? "bg-amber-500/10 text-amber-500 border border-amber-500/20"
                           : "bg-cyan-500/10 text-cyan-500 border border-cyan-500/20"
@@ -161,15 +258,34 @@ const UserManagement: React.FC = () => {
                       {user.maLoaiNguoiDung === "GV" ? "GIÁO VIÊN" : "HỌC VIÊN"}
                     </span>
                   </td>
+
                   <td className="px-4 py-4">
                     <div className="flex items-center justify-center gap-2">
                       <button
                         onClick={() => handleEdit(user)}
-                        className="w-7 h-7 rounded bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-all flex items-center justify-center"
+                        className="
+                        w-8 h-8
+
+                        rounded-lg
+
+                        bg-blue-500/10
+                        text-blue-500
+
+                        hover:bg-blue-500
+                        hover:text-white
+
+                        transition-all
+
+                        flex items-center justify-center
+                      "
                       >
                         <i className="fa fa-edit text-xs"></i>
                       </button>
-                      <DeleteUserBtn taiKhoan={user.taiKhoan} onSuccess={fetchUsers} />
+
+                      <DeleteUserBtn
+                        taiKhoan={user.taiKhoan}
+                        onSuccess={fetchUsers}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -179,25 +295,49 @@ const UserManagement: React.FC = () => {
         </table>
       </div>
 
-      {/* MOBILE & TABLET CARD - Đã đổi md:hidden thành lg:hidden */}
+      {/* MOBILE */}
       <div className="lg:hidden space-y-3">
         {isLoading ? (
-          <div className="text-center py-10 text-slate-400">Đang tải dữ liệu...</div>
+          <div className="text-center py-10 text-slate-500">
+            Đang tải dữ liệu...
+          </div>
         ) : paginatedUsers.length === 0 ? (
           <div className="text-center py-10 text-slate-500">
-            {keyword ? `Không tìm thấy kết quả nào cho "${keyword}"` : "Không có dữ liệu phù hợp."}
+            {keyword
+              ? `Không tìm thấy kết quả nào cho "${keyword}"`
+              : "Không có dữ liệu phù hợp."}
           </div>
         ) : (
           paginatedUsers.map((user, index) => (
-            <div key={user.taiKhoan} className="bg-slate-800/40 border border-slate-700 rounded-xl p-4 shadow-sm">
+            <div
+              key={user.taiKhoan}
+              className="
+              bg-white
+              dark:bg-slate-800/40
+
+              border
+              border-slate-200
+              dark:border-slate-700
+
+              rounded-xl
+              p-4
+
+              shadow-sm
+            "
+            >
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <p className="text-cyan-400 text-xs font-bold">
+                  <p className="text-cyan-500 text-xs font-bold">
                     #{(currentPage - 1) * PAGE_SIZE + index + 1}
                   </p>
-                  <h3 className="text-white font-semibold text-lg">{user.hoTen}</h3>
-                  <p className="text-slate-400 text-xs">{user.taiKhoan}</p>
+
+                  <h3 className="text-slate-900 dark:text-white font-semibold text-lg">
+                    {user.hoTen}
+                  </h3>
+
+                  <p className="text-slate-500 text-xs">{user.taiKhoan}</p>
                 </div>
+
                 <span
                   className={`px-2 py-1 rounded text-[10px] font-bold ${
                     user.maLoaiNguoiDung === "GV"
@@ -209,26 +349,64 @@ const UserManagement: React.FC = () => {
                 </span>
               </div>
 
-              <div className="space-y-2 text-sm mt-3 bg-slate-900/50 p-3 rounded-lg border border-slate-800">
-                <div className="flex items-start justify-between">
+              <div
+                className="
+                space-y-2
+                mt-3
+
+                bg-slate-50
+                dark:bg-slate-900/50
+
+                p-3
+                rounded-lg
+
+                border
+                border-slate-200
+                dark:border-slate-800
+              "
+              >
+                <div className="flex justify-between">
                   <span className="text-slate-500">Email:</span>
-                  <span className="text-slate-300 break-all text-right ml-2">{user.email}</span>
+
+                  <span className="text-slate-700 dark:text-slate-300 text-right ml-2 break-all">
+                    {user.email}
+                  </span>
                 </div>
-                <div className="flex items-start justify-between">
+
+                <div className="flex justify-between">
                   <span className="text-slate-500">SĐT:</span>
-                  {/* Đã fix số điện thoại */}
-                  <span className="text-slate-300 font-medium">{user.soDT || (user as any).soDt}</span>
+
+                  <span className="text-slate-700 dark:text-slate-300">
+                    {user.soDT || (user as any).soDt}
+                  </span>
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-700/50">
+              <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
                 <button
                   onClick={() => handleEdit(user)}
-                  className="px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-all flex items-center justify-center gap-2 text-sm font-medium"
+                  className="
+                  px-3 py-1.5
+
+                  rounded-lg
+
+                  bg-blue-500/10
+                  text-blue-500
+
+                  hover:bg-blue-500
+                  hover:text-white
+
+                  transition-all
+                "
                 >
-                  <i className="fa fa-edit"></i> Sửa
+                  <i className="fa fa-edit mr-2"></i>
+                  Sửa
                 </button>
-                <DeleteUserBtn taiKhoan={user.taiKhoan} onSuccess={fetchUsers} />
+
+                <DeleteUserBtn
+                  taiKhoan={user.taiKhoan}
+                  onSuccess={fetchUsers}
+                />
               </div>
             </div>
           ))
@@ -240,24 +418,75 @@ const UserManagement: React.FC = () => {
         <button
           disabled={currentPage === 1 || isLoading}
           onClick={() => setCurrentPage((prev) => prev - 1)}
-          className="w-full sm:w-auto px-4 py-2 bg-slate-800 text-white rounded-lg text-xs font-bold hover:bg-slate-700 disabled:opacity-30 transition-all"
+          className="
+          w-full sm:w-auto
+          px-4 py-2
+
+          bg-slate-200
+          dark:bg-slate-800
+
+          text-slate-900
+          dark:text-white
+
+          rounded-lg
+          text-xs
+          font-bold
+
+          hover:bg-slate-300
+          dark:hover:bg-slate-700
+
+          disabled:opacity-30
+          transition-all
+        "
         >
           Trang trước
         </button>
-        <span className="text-slate-400 text-xs font-medium">
-          Trang <span className="text-cyan-500">{currentPage}</span> / {totalPages}
+
+        <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">
+          Trang <span className="text-cyan-500">{currentPage}</span> /{" "}
+          {totalPages}
         </span>
+
         <button
           disabled={currentPage === totalPages || isLoading}
           onClick={() => setCurrentPage((prev) => prev + 1)}
-          className="w-full sm:w-auto px-4 py-2 bg-slate-800 text-white rounded-lg text-xs font-bold hover:bg-slate-700 disabled:opacity-30 transition-all"
+          className="
+          w-full sm:w-auto
+          px-4 py-2
+
+          bg-slate-200
+          dark:bg-slate-800
+
+          text-slate-900
+          dark:text-white
+
+          rounded-lg
+          text-xs
+          font-bold
+
+          hover:bg-slate-300
+          dark:hover:bg-slate-700
+
+          disabled:opacity-30
+          transition-all
+        "
         >
           Trang sau
         </button>
       </div>
 
-      <AddUserModal isOpen={isAddOpen} onClose={() => setIsAddOpen(false)} onSuccess={fetchUsers} />
-      <EditUserModal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} onSuccess={fetchUsers} user={userEditing} />
+      <AddUserModal
+        isOpen={isAddOpen}
+        onClose={() => setIsAddOpen(false)}
+        onSuccess={fetchUsers}
+      />
+
+      <EditUserModal
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        onSuccess={fetchUsers}
+        user={userEditing}
+      />
     </div>
   );
 };
