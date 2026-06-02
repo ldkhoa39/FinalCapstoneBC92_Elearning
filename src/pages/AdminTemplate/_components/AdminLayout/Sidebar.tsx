@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         `}
       >
         {/* LOGO */}
-        <div className="h-16 flex items-center justify-center border-b border-slate-800/80">
+        <div className="h-20 flex items-center justify-center border-b border-slate-800/80">
           <span className="font-bold text-cyan-400">
             {isOpen ? "E-LEARNING" : "E"}
           </span>
