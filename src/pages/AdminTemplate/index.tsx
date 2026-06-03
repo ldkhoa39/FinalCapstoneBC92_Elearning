@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import AdminNavbar from "./_components/AdminLayout/AdminNavbar";
 import Sidebar from "./_components/AdminLayout/Sidebar";
 import AdminBreadcrumb from "./_components/AdminLayout/AdminBreadcrumb";
-import Dashboard from "./Dashboard";
 
 const AdminTemplate: React.FC = () => {
   // State quản lý việc đóng/mở Sidebar

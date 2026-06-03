@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search as SearchIcon, BookOpen, AlertCircle } from "lucide-react";
+import { Search as SearchIcon, AlertCircle } from "lucide-react";
 import { courseService } from "../../../services/courseService";
 import type { Course } from "../../../type";
 

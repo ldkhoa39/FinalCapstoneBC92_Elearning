@@ -20,11 +20,6 @@ export interface User {
   maNhom: string;
 }
 
-/**
- * Data gửi lên khi Đăng Ký (Register)
- * SỬA ĐỔI: Dùng Omit để loại bỏ 'maLoaiNguoiDung' 
- * vì API Đăng ký chỉ nhận 6 trường (khớp với Swagger image_bd4c1d.png)
- */
 export interface RegisterPayload extends Omit<User, 'maLoaiNguoiDung'> {
   matKhau: string;
 }
