@@ -2,202 +2,116 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const AdminProfile: React.FC = () => {
-  const { userLogin } = useSelector((state: any) => state.auth);
+  // SỬA Ở ĐÂY: Lấy đúng biến userLogin từ state.auth
+  const { userLogin } = useSelector((state: any) => state.auth || {});
 
+  // Hàm tạo Avatar từ chữ cái đầu tiên của Tên hoặc Tài khoản
   const getInitial = (name?: string) => {
     if (!name) return "A";
-
-    const words = name.trim().split(" ");
-    return words[words.length - 1][0].toUpperCase();
+    const nameParts = name.trim().split(" ");
+    return nameParts[nameParts.length - 1].charAt(0).toUpperCase();
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* HEADER */}
-      <div
+    <div className="p-6 md:p-8 min-h-screen">
+      {/* --- PHẦN HEADER: AVATAR & TÊN --- */}
+      <div 
         className="
-          bg-white dark:bg-slate-900
-          border border-slate-200 dark:border-slate-800
-          rounded-2xl
-          p-6
-          shadow-lg
+          flex items-center gap-6 
+          bg-slate-900/50 
+          border border-slate-800 
+          p-6 rounded-2xl 
+          mb-8 shadow-sm
         "
       >
-        <div className="flex flex-col md:flex-row items-center gap-6">
-          {/* Avatar */}
-          <div
+        {/* Avatar */}
+        <div 
+          className="
+            w-20 h-20 rounded-2xl 
+            bg-gradient-to-br from-cyan-500 to-blue-600 
+            flex items-center justify-center 
+            text-4xl font-bold text-white shadow-lg
+          "
+        >
+          {getInitial(userLogin?.hoTen || userLogin?.taiKhoan)}
+        </div>
+
+        {/* Thông tin chức danh */}
+        <div>
+          <h1 className="text-2xl font-bold text-white mb-2">
+            {userLogin?.hoTen || userLogin?.taiKhoan || "Quản trị viên"}
+          </h1>
+          <span 
             className="
-              w-24 h-24 rounded-2xl
-              bg-gradient-to-br
-              from-cyan-500
-              to-blue-600
-              flex items-center justify-center
-              text-4xl font-bold text-white
-              shadow-lg
+              inline-block px-3 py-1 
+              bg-slate-800 
+              text-cyan-400 text-xs font-medium 
+              rounded-full border border-slate-700
             "
           >
-            {getInitial(userLogin?.hoTen || userLogin?.taiKhoan)}
-          </div>
-
-          {/* Info */}
-          <div className="text-center md:text-left">
-            <h1
-              className="
-                text-2xl font-bold
-                text-slate-900 dark:text-white
-              "
-            >
-              {userLogin?.hoTen || "Quản trị viên"}
-            </h1>
-
-            <p
-              className="
-                text-slate-500 dark:text-slate-400
-                mt-1
-              "
-            >
-              {userLogin?.email}
-            </p>
-
-            <span
-              className="
-                inline-flex mt-3
-                px-3 py-1 rounded-full
-                bg-cyan-500/10
-                text-cyan-500
-                text-xs font-semibold
-              "
-            >
-              Administrator
-            </span>
-          </div>
+            Administrator
+          </span>
         </div>
       </div>
 
-      {/* DETAIL */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Personal Info */}
-        <div
+      {/* --- PHẦN THÔNG TIN CHI TIẾT --- */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        {/* Card: Thông tin cá nhân */}
+        <div 
           className="
-            bg-white dark:bg-slate-900
-            border border-slate-200 dark:border-slate-800
-            rounded-2xl
-            p-6
-            shadow-lg
+            bg-slate-900/50 
+            border border-slate-800 
+            rounded-2xl p-6 shadow-sm
           "
         >
-          <h2
-            className="
-              text-lg font-bold mb-5
-              text-slate-900 dark:text-white
-            "
-          >
-            Thông tin cá nhân
-          </h2>
-
+          <h2 className="text-xl font-bold text-white mb-6">Thông tin cá nhân</h2>
+          
           <div className="space-y-4">
-            <InfoRow
-              label="Tài khoản"
-              value={userLogin?.taiKhoan || "N/A"}
-            />
+            {/* Row: Tài khoản */}
+            <div className="flex justify-between items-center py-3 border-b border-slate-800/60">
+              <span className="text-slate-400 font-medium">Tài khoản</span>
+              <span className="text-slate-200 font-semibold">{userLogin?.taiKhoan || "N/A"}</span>
+            </div>
 
-            <InfoRow
-              label="Họ tên"
-              value={userLogin?.hoTen || "N/A"}
-            />
+            {/* Row: Họ tên */}
+            <div className="flex justify-between items-center py-3 border-b border-slate-800/60">
+              <span className="text-slate-400 font-medium">Họ tên</span>
+              <span className="text-slate-200 font-semibold">{userLogin?.hoTen || "N/A"}</span>
+            </div>
 
-            <InfoRow
-              label="Email"
-              value={userLogin?.email || "N/A"}
-            />
+            {/* Row: Email */}
+            <div className="flex justify-between items-center py-3 border-b border-slate-800/60">
+              <span className="text-slate-400 font-medium">Email</span>
+              <span className="text-slate-200 font-semibold">{userLogin?.email || "N/A"}</span>
+            </div>
 
-            <InfoRow
-              label="Số điện thoại"
-              value={userLogin?.soDT || "N/A"}
-            />
+            {/* Row: Số điện thoại */}
+            <div className="flex justify-between items-center py-3">
+              <span className="text-slate-400 font-medium">Số điện thoại</span>
+              <span className="text-slate-200 font-semibold">{userLogin?.soDT || "N/A"}</span>
+            </div>
           </div>
         </div>
 
-        {/* System Info */}
-        <div
+        {/* Card phụ bên phải: Trạng thái hệ thống */}
+        <div 
           className="
-            bg-white dark:bg-slate-900
-            border border-slate-200 dark:border-slate-800
-            rounded-2xl
-            p-6
-            shadow-lg
+            bg-slate-900/50 
+            border border-slate-800 
+            rounded-2xl p-6 shadow-sm
           "
         >
-          <h2
-            className="
-              text-lg font-bold mb-5
-              text-slate-900 dark:text-white
-            "
-          >
-            Thông tin hệ thống
-          </h2>
-
-          <div className="space-y-4">
-            <InfoRow
-              label="Vai trò"
-              value="Quản trị viên"
-            />
-
-            <InfoRow
-              label="Trạng thái"
-              value="Đang hoạt động"
-            />
-
-            <InfoRow
-              label="Quyền hạn"
-              value="Full Access"
-            />
-
-            <InfoRow
-              label="Phiên bản"
-              value="Elearning v2.0"
-            />
+          <h2 className="text-xl font-bold text-white mb-6">Trạng thái hệ thống</h2>
+          <div className="flex flex-col items-center justify-center h-40 text-slate-500">
+            <i className="fa fa-chart-line text-4xl mb-3 opacity-50" />
+            <p className="text-sm">Chưa có hoạt động gần đây</p>
           </div>
         </div>
+
       </div>
     </div>
   );
 };
-
-const InfoRow = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) => (
-  <div
-    className="
-      flex items-center justify-between
-      border-b
-      border-slate-200
-      dark:border-slate-800
-      pb-3
-    "
-  >
-    <span
-      className="
-        text-sm
-        text-slate-500 dark:text-slate-400
-      "
-    >
-      {label}
-    </span>
-
-    <span
-      className="
-        text-sm font-semibold
-        text-slate-900 dark:text-slate-200
-      "
-    >
-      {value}
-    </span>
-  </div>
-);
 
 export default AdminProfile;
