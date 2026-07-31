@@ -38,7 +38,7 @@ const AdminLogin: React.FC = () => {
       localStorage.setItem("userLogin", JSON.stringify(res.data));
 
       // CHUYỂN TRANG
-      navigate("/admin/course-management");
+      navigate("/admin/");
     } catch (err: any) {
       console.log("LOGIN ERROR:", err);
 

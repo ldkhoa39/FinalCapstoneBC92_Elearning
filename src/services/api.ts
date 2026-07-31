@@ -23,8 +23,8 @@ api.interceptors.request.use(
       
       if (user.accessToken) {
         config.headers.Authorization = `Bearer ${user.accessToken}`;
-        console.log("USER LOCAL:", user);
-        console.log("TOKEN:", user.accessToken);
+        // console.log("USER LOCAL:", user);
+        // console.log("TOKEN:", user.accessToken);
       }
     }
     return config;

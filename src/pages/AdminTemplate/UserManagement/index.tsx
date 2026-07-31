@@ -27,6 +27,10 @@ const UserManagement: React.FC = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [userEditing, setUserEditing] = useState<User | null>(null);
 
+  // useEffect(() => {
+  //   console.log("UserManagement Mounted");
+  // }, []);
+
   // Chỉ fetch dữ liệu khi cần
   const fetchUsers = useCallback(async () => {
     try {

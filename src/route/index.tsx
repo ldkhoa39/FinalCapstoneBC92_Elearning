@@ -13,6 +13,7 @@ import Detail from "../pages/HomeTemplate/Detail";
 import CourseCatalog from "../pages/HomeTemplate/CourseCatalog";
 import Search from "../pages/HomeTemplate/Search.tsx";
 import Profile from "../pages/HomeTemplate/Profile";
+import Advise from "../pages/HomeTemplate/Advise/Advise.tsx";
 
 import Login from "../pages/AuthTemplate/Auth/Login";
 import Register from "../pages/AuthTemplate/Auth/Register";
@@ -34,6 +35,7 @@ const Router = () => {
         { path: "course-category/:maDanhMuc", element: <CourseCatalog /> },
         { path: "profile", element: <Profile /> },
         { path: "search", element: <Search /> },
+        { path: "advise", element: <Advise /> },
       ],
     },
 

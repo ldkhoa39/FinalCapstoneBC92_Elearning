@@ -1,8 +1,13 @@
 // src/pages/AdminTemplate/Dashboard/index.tsx
-import React from "react";
+import React, { useEffect }from "react";
 import { Link } from "react-router-dom";
 
 const Dashboard: React.FC = () => {
+
+  // useEffect(() => {
+  //   console.log("✅ Dashboard Mounted");
+  // }, []);
+
   const stats = [
     {
       id: 1,
@@ -37,6 +42,7 @@ const Dashboard: React.FC = () => {
       desc: "Tăng 12% so với tháng trước",
     },
   ];
+
 
   return (
     <div className="space-y-8 animate-fade-in">

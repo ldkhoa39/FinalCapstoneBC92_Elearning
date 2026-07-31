@@ -107,17 +107,17 @@ const Header: React.FC = () => {
               </div>
             </li>
 
-            {/* Mục KHÓA HỌC */}
+            {/* Mục Tư vấn */}
             <li>
               <NavLink
-                to="/"
+                to="/Advise"
                 className={({ isActive }) =>
                   `relative pb-1 text-[13px] font-bold uppercase tracking-wider transition-all duration-300
                   after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-accent-purple after:transition-all after:duration-300 hover:after:w-full
                   ${isActive ? "text-accent-cyan after:w-full after:bg-accent-cyan" : "text-primary-blue hover:text-accent-purple"}`
                 }
               >
-                KHÓA HỌC
+                TƯ VẤN
               </NavLink>
             </li>
 
